@@ -15,7 +15,6 @@ return new class extends Migration
             $table->increments('id');
             $table->string('title');
             $table->string('description');
-            $table->string('posted_at');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('event_id');
             $table->timestamps();
