@@ -41,9 +41,29 @@
         font-family: "Radio Canada Big", sans-serif;
     }
 
-    main {
-        background-color: whitesmoke
+    main, html, body {
+        background-color: whitesmoke;
     }
+
+
+    li.nav-item {
+        margin-right: .5em
+    }
+    a.nav-link {
+        border: none;
+        border-radius: 30px;
+    }
+
+    a.active {
+        background-color: #ffa600;
+        color: white !important;
+    }
+
+    a.nav-link:hover {
+        background-color: #ffa600;
+        transition: all ease-in-out 2ms
+    }
+
 
 </style>
 <body>
@@ -80,7 +100,7 @@
 
                         @if (Route::has('register'))
                             <li class="nav-item">
-                                <a class="nav-link {{ Request::is('register') ? 'active' : '' }}" href="{{ route('register') }}">JOIN NOW</a>
+                                <a class="nav-link {{ Request::is('register') ? 'active' : '' }}" href="{{ route('register') }}">Register</a>
                             </li>
                         @endif
                     @else
@@ -108,7 +128,7 @@
         </div>
     </nav>
 
-    <main class="py-5 h-100">
+    <main class="py-5">
         @yield('content')
     </main>
 
