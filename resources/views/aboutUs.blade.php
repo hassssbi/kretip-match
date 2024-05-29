@@ -5,7 +5,7 @@
         <div class="col-8">
             <h2>About Us</h2>
             <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet cumque dicta exercitationem tempora harum aliquam incidunt id quasi molestiae a, iusto perferendis consequatur blanditiis nostrum. Illo provident vel, rem suscipit magnam possimus quae, nihil aliquam, id iusto ea. Nostrum vero quam ipsa necessitatibus minus eligendi fugit velit voluptatem ducimus explicabo maiores, assumenda fuga hic rem beatae odio sequi reprehenderit. Vel!
+                A non-governmental organization serving Malaysian youth is called Kretip Malaya. The establishment of Kretip Malaya took place on January 20, 2021. This group is a club for young and innovative people. The terms "creative" and "tips" are combined in the name of this company in the Bahasa Malaysian language, and Malaya alludes to our nation, Malaysia. The Kretip Malaya merchandise produced is one of the efforts to raise money to assist those in need since Kretip Malaya is a group that frequently engages in humanitarian activities to support everyone who is in need.
             </p>
         </div>
         <div class="col-4">
@@ -19,7 +19,7 @@
         <div class="col-8">
             <h2>What We Do?</h2>
             <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum voluptatum nam iure quia consequuntur repudiandae non, nesciunt doloremque autem suscipit nostrum eum asperiores facere, sint deserunt ut perspiciatis laborum a nemo molestiae voluptates explicabo. Aut quas alias cumque pariatur impedit laudantium itaque accusamus, natus error omnis inventore obcaecati molestias, dolorum quod est facere ab sequi aliquid facilis! Tempore, doloribus sapiente?
+                Since our inception, we have engaged in a wide range of events, all of which are based on the fact that our club is known as the Youth and Creative Club. The TikTok Challenge contest or campaign and it was one of the first things we ever did. and it's perfectly fitting given how frequently youngsters use TikTok apps these days. In addition, among many other youth programmes we run, we frequently engage in charitable work to help groups in need. such as flood-related Incident victims. and groups struggling during the Pandemic COVID 19, we provide necessities to the homeless, and provide aid during ramadan.
             </p>
         </div>
     </div>

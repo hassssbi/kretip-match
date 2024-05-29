@@ -1,17 +1,26 @@
 @extends('layouts.app')
 @section('content')
-<div class="container py-5 my-5">
-    <div class="d-flex justify-content-center py-4">
-        <div class="col-md-8 py-1">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h1>Walk through the World with Us.</h1>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci dolores iusto deleniti velit in. Quos voluptate sunt sint commodi consequuntur perspiciatis numquam dicta laboriosam voluptas rem laudantium, ullam itaque pariatur at, ipsum reprehenderit cupiditate. Assumenda voluptatum harum voluptatibus voluptates quisquam repellendus, natus consectetur sunt impedit laudantium dolor. Praesentium alias asperiores, culpa ab vero omnis sapiente suscipit quo pariatur, aliquid ducimus delectus necessitatibus eligendi sequi eius laborum ex ratione, aspernatur minus nisi rem nobis. Dolores reiciendis repudiandae ipsam nemo? Ab, architecto.</p>
-                    <div>
-                        <a href="{{ url('/about-us')}}" class="btn btn-warning"><strong>Get to know us!</strong></a>
-                    </div>
-                </div>
-            </div>
+<div class="container">
+    <div class="row p-5">
+        <div class="col-8">
+            <h2>About Us</h2>
+            <p>
+                A non-governmental organization serving Malaysian youth is called Kretip Malaya. The establishment of Kretip Malaya took place on January 20, 2021. This group is a club for young and innovative people. The terms "creative" and "tips" are combined in the name of this company in the Bahasa Malaysian language, and Malaya alludes to our nation, Malaysia. The Kretip Malaya merchandise produced is one of the efforts to raise money to assist those in need since Kretip Malaya is a group that frequently engages in humanitarian activities to support everyone who is in need.
+            </p>
+        </div>
+        <div class="col-4">
+            <img src="{{ asset('admin/dist/img/kretip-malaya-logo-wide.png')}}" alt="" style="width: 100%">
+        </div>
+    </div>
+    <div class="row p-5">
+        <div class="col-4">
+            <img src="{{ asset('admin/dist/img/kretip-malaya-logo-wide.png')}}" alt="" style="width: 100%">
+        </div>
+        <div class="col-8">
+            <h2>What We Do?</h2>
+            <p>
+                Since our inception, we have engaged in a wide range of events, all of which are based on the fact that our club is known as the Youth and Creative Club. The TikTok Challenge contest or campaign and it was one of the first things we ever did. and it's perfectly fitting given how frequently youngsters use TikTok apps these days. In addition, among many other youth programmes we run, we frequently engage in charitable work to help groups in need. such as flood-related Incident victims. and groups struggling during the Pandemic COVID 19, we provide necessities to the homeless, and provide aid during ramadan.
+            </p>
         </div>
     </div>
 </div>
