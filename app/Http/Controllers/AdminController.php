@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -12,7 +13,14 @@ class AdminController extends Controller
      */
     public function index()
     {
-        //
+        $acount = User::where('role_id', 1)->count();
+        $mcount = User::where('role_id', 2)->count();
+        $vcount = User::where('role_id', 3)->count();
+        $breadcrumbs = [
+            ['name' => 'Home', 'url' => route('admins.index')],
+            ['name' => 'Dashboard', 'url' => route('admins.index')]
+        ];
+        return view('admins.index', compact('breadcrumbs', 'acount', 'mcount', 'vcount',));
     }
 
     /**

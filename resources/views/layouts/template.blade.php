@@ -53,6 +53,10 @@
     .main-header, .main-footer {
         background-color: #e3d2d2
     } */
+
+    main, html, body {
+        background-color: whitesmoke;
+    }
 </style>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -66,7 +70,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="{{ route('home') }}" class="nav-link">Home</a>
+        <a href="{{ route('admins.index') }}" class="nav-link">Home</a>
       </li>
     </ul>
   </nav>
@@ -75,10 +79,10 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-warning elevation-4">
     <!-- Brand Logo -->
-    <a href="{{ route('home') }}" class="brand-link">
+    <a href="{{ route('admins.index') }}" class="brand-link">
       <img src="{{ asset('admin/dist/icon/UITM LOGO.ico')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
 
-      <span class="brand-text font-weight-light">Timetable Manager</span>
+      <span class="brand-text font-weight-light">{{ config('app.name', 'Laravel') }}</span>
     </a>
 
     <!-- Sidebar -->
@@ -99,55 +103,95 @@
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column nav-compact nav-flat" data-widget="treeview" role="menu" data-accordion="false" id="navigationMenu">
+          {{-- Admin Navbar --}}
           <li class="nav-item">
-            <a href="{{ route('home')}}" class="nav-link @if(Request::routeIs('home')) active @endif">
+            <a href="{{ route('admins.index')}}" class="nav-link @if(Request::routeIs('admins.index')) active @endif">
               <i class="fas fa-home nav-icon"></i>
-              <p>Dashboard</p>
+              <p>Home</p>
             </a>
           </li>
 
-          {{-- Removed for brevity --}}
-
           <li class="nav-item">
-            <a href="{{ route('home') }}" class="nav-link @if(Request::routeIs('students.index') || Request::routeIs('students.create') || Request::routeIs('students.edit') || Request::routeIs('students.show')) active @endif">
+            <a href="{{ route('admins.index') }}" class="nav-link @if(Request::routeIs('admins.index')) active @endif">
               <i class="fas fa-graduation-cap nav-icon"></i>
-              <p>List of Students</p>
+              <p>Profile</p>
             </a>
           </li>
 
           <li class="nav-item">
-            <a href="{{ route('home') }}" class="nav-link @if(Request::routeIs('subjects.index') || Request::routeIs('subjects.create') || Request::routeIs('subjects.edit') || Request::routeIs('subjects.show')) active @endif">
+            <a href="{{ route('admins.index') }}" class="nav-link @if(Request::routeIs('admins.index')) active @endif">
               <i class="fas fa-book nav-icon"></i>
-              <p>List of Subjects</p>
+              <p>Manage Users</p>
+            </a>
+          </li>
+
+          {{-- Moderator Navbar --}}
+          {{-- <li class="nav-item">
+            <a href="{{ route('moderators.index')}}" class="nav-link @if(Request::routeIs('moderators.index')) active @endif">
+              <i class="fas fa-home nav-icon"></i>
+              <p>Home</p>
             </a>
           </li>
 
           <li class="nav-item">
-            <a href="{{ route('home') }}" class="nav-link @if(Request::routeIs('halls.index') || Request::routeIs('halls.create') || Request::routeIs('halls.edit') || Request::routeIs('halls.show')) active @endif">
-              <i class="fas fa-university nav-icon"></i>
-              <p>List of Halls</p>
+            <a href="{{ route('moderators.index') }}" class="nav-link @if(Request::routeIs('moderators.index')) active @endif">
+              <i class="fas fa-graduation-cap nav-icon"></i>
+              <p>Profile</p>
             </a>
           </li>
 
           <li class="nav-item">
-            <a href="{{ route('home') }}" class="nav-link @if(Request::routeIs('timetables.index') || Request::routeIs('timetables.create') || Request::routeIs('timetables.edit') || Request::routeIs('timetables.show')) active @endif">
-              <i class="fas fa-clock nav-icon"></i>
-              <p>List of Timetables</p>
+            <a href="{{ route('moderators.index') }}" class="nav-link @if(Request::routeIs('moderators.index')) active @endif">
+              <i class="fas fa-graduation-cap nav-icon"></i>
+              <p>Events</p>
             </a>
           </li>
 
           <li class="nav-item">
-            <a href="{{ route('home') }}" class="nav-link @if(Request::routeIs('groups.index') || Request::routeIs('groups.create') || Request::routeIs('groups.edit') || Request::routeIs('groups.show')) active @endif">
-              <i class="fas fa-user-tie nav-icon"></i>
-              <p>List of Lecturer Groups</p>
+            <a href="{{ route('moderators.index') }}" class="nav-link @if(Request::routeIs('moderators.index')) active @endif">
+              <i class="fas fa-graduation-cap nav-icon"></i>
+              <p>Completed Events</p>
+            </a>
+          </li> --}}
+
+          {{-- Volunteer Navbar --}}
+
+          {{-- <li class="nav-item">
+            <a href="{{ route('volunteers.index')}}" class="nav-link @if(Request::routeIs('volunteers.index')) active @endif">
+              <i class="fas fa-home nav-icon"></i>
+              <p>Home</p>
             </a>
           </li>
 
           <li class="nav-item">
-            {{-- <a class="nav-link btn-logout" href="{{ route('logout') }}">
-                <i class="fas fa-sign-out-alt nav-icon"></i>
-                <p>Logout</p>
-            </a> --}}
+            <a href="{{ route('volunteers.index') }}" class="nav-link @if(Request::routeIs('volunteers.index')) active @endif">
+              <i class="fas fa-graduation-cap nav-icon"></i>
+              <p>Profile</p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="{{ route('volunteers.index') }}" class="nav-link @if(Request::routeIs('volunteers.index')) active @endif">
+              <i class="fas fa-graduation-cap nav-icon"></i>
+              <p>Events</p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="{{ route('volunteers.index') }}" class="nav-link @if(Request::routeIs('volunteers.index')) active @endif">
+              <i class="fas fa-graduation-cap nav-icon"></i>
+              <p>Status</p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="{{ route('volunteers.index') }}" class="nav-link @if(Request::routeIs('volunteers.index')) active @endif">
+              <i class="fas fa-graduation-cap nav-icon"></i>
+              <p>Assigned Events</p>
+            </a>
+          </li> --}}
+
+          <li class="nav-item">
             <a class="nav-link btn-logout" href="#">
                 <i class="fas fa-sign-out-alt nav-icon"></i>
                 <p>Logout</p>
@@ -169,21 +213,6 @@
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    {{-- <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0">Dashboard</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="{{ route('home')}}">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard</li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div> --}}
     <x-breadcrumbs :breadcrumbs="$breadcrumbs" />
     <!-- /.content-header -->
 
@@ -199,7 +228,7 @@
   </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
-    <strong>Copyright &copy; 2024-2025 <a href="https://adminlte.io">HASBI ARMAN</a>.</strong>
+    <strong>Copyright &copy; 2024-2025 <a href="https://adminlte.io">BYTEBLITZ</a>.</strong>
     All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
       <b>Version</b> 1.0
@@ -306,9 +335,5 @@
             });
         });
 </script>
-
-
-
-
 </body>
 </html>

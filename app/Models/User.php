@@ -17,6 +17,8 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    public $table = 'users';
+
     protected $fillable = [
         'email',
         'password',
@@ -54,5 +56,20 @@ class User extends Authenticatable
     public function role()
     {
         return $this->belongsTo(Role::class, 'role_id', 'id');
+    }
+
+    public function isAdmin()
+    {
+        return Auth::user()->role_id == 1;
+    }
+
+    public function isModerator()
+    {
+        return Auth::user()->role_id == 2;
+    }
+
+    public function isVolunteer()
+    {
+        return Auth::user()->role_id == 3;
     }
 }
