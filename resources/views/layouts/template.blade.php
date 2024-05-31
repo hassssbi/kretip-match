@@ -104,7 +104,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="{{ Storage::url(Auth::user()->image) }}" class="img-circle elevation-2" alt="User Image">
+          <img src="{{ (isset(Auth::user()->image) ? Storage::url(Auth::user()->image) : asset('admin/dist/img/default-user.png')) }}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block">{{ Auth::user()->name }}</a>
@@ -124,7 +124,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('admins.profile', Auth::user()->id) }}" class="nav-link @if(Request::routeIs('admins.profile') || Request::routeIs('admins.editProfile')) active @endif">
+                <a href="{{ route('admins.profile', Auth::user()->id) }}" class="nav-link @if(Request::routeIs('admins.profile') || Request::routeIs('admins.editProfile') || Request::routeIs('admins.changePassword')) active @endif">
                 <i class="fas fa-user-secret nav-icon"></i>
                 <p>Profile</p>
                 </a>
@@ -148,7 +148,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('moderators.profile', Auth::user()->id) }}" class="nav-link @if(Request::routeIs('moderators.profile')) active @endif">
+                <a href="{{ route('moderators.profile', Auth::user()->id) }}" class="nav-link @if(Request::routeIs('moderators.profile') || Request::routeIs('moderators.editProfile') || Request::routeIs('moderators.changePassword')) active @endif">
                 <i class="fa fa-user-tie nav-icon"></i>
                 <p>Profile</p>
                 </a>
@@ -179,7 +179,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('volunteers.profile', Auth::user()->id) }}" class="nav-link @if(Request::routeIs('volunteers.profile')) active @endif">
+                <a href="{{ route('volunteers.profile', Auth::user()->id) }}" class="nav-link @if(Request::routeIs('volunteers.profile') || Request::routeIs('volunteers.editProfile') || Request::routeIs('volunteers.changePassword')) active @endif">
                 <i class="fa fa-user nav-icon"></i>
                 <p>Profile</p>
                 </a>
