@@ -12,7 +12,11 @@ class VolunteerController extends Controller
      */
     public function index()
     {
-        //
+        $breadcrumbs = [
+            ['name' => 'Home', 'url' => route('volunteers.index')],
+            ['name' => 'Dashboard', 'url' => route('volunteers.index')]
+        ];
+        return view('volunteers.index', compact('breadcrumbs'));
     }
 
     /**

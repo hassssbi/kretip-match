@@ -26,10 +26,11 @@ class User extends Authenticatable
         'icno',
         'gender',
         'dob',
-        'phoneno',
+        'phone_number',
         'address',
         'state',
         'postcode',
+        'about',
         'role_id',
     ];
 

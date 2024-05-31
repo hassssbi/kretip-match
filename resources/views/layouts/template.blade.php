@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ config('app.name', 'Kretip Match') }} | {{ $breadcrumbs[1]['name'] }}</title>
-  <link rel="icon" href="{{ asset('admin/dist/icon/UITM LOGO.ico')}}">
+  <link rel="icon" href="{{ asset('admin/dist/icon/km-logo.ico')}}">
 
   <!-- Google Font: Source Sans Pro -->
   {{-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"> --}}
@@ -35,6 +35,10 @@
   <!-- Select2 -->
   <link rel="stylesheet" href="{{ asset('admin/plugins/select2/css/select2.min.css') }}">
   <link rel="stylesheet" href="{{ asset('admin/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+
 </head>
 
 <style>
@@ -42,21 +46,26 @@
         font-family: "Radio Canada Big", sans-serif;
     }
 
-    /* aside.main-sidebar {
-        background-color: #69153c
-    } */
-
-    /* .content-wrapper {
-        background-color: #efe7e7
-    }
-
-    .main-header, .main-footer {
-        background-color: #e3d2d2
-    } */
-
     main, html, body {
         background-color: whitesmoke;
     }
+
+    .navbar-nav a.nav-link {
+        border: none;
+        border-radius: 30px;
+    }
+
+    .navbar-nav a.nav-link.active {
+        background-color: #ffa600;
+        color: white !important;
+    }
+
+    .navbar-nav a.nav-link:hover {
+        background-color: #ffa600;
+        transition: all ease-in-out 2ms
+    }
+
+
 </style>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -70,8 +79,13 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="{{ route('admins.index') }}" class="nav-link">Home</a>
+        <a href="{{ auth()->check() ? route(auth()->user()->role_id == 1 ? 'admins.index' : (auth()->user()->role_id == 2 ? 'moderators.index' : 'volunteers.index')) : '#' }}" class="nav-link">Home</a>
       </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+            <a class="nav-link btn-logout" href="#">Logout</a>
+        </li>
     </ul>
   </nav>
   <!-- /.navbar -->
@@ -79,10 +93,10 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-warning elevation-4">
     <!-- Brand Logo -->
-    <a href="{{ route('admins.index') }}" class="brand-link">
-      <img src="{{ asset('admin/dist/icon/UITM LOGO.ico')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
 
-      <span class="brand-text font-weight-light">{{ config('app.name', 'Laravel') }}</span>
+    <a href="{{ auth()->check() ? route(auth()->user()->role_id == 1 ? 'admins.index' : (auth()->user()->role_id == 2 ? 'moderators.index' : 'volunteers.index')) : '#' }}" class="brand-link">
+        <img src="{{ asset('admin/dist/icon/km-logo.ico')}}" alt="AdminLTE Logo" class="brand-image" style="opacity: .8">
+        <span class="brand-text font-weight-light">{{ config('app.name', 'Laravel') }}</span>
     </a>
 
     <!-- Sidebar -->
@@ -104,92 +118,97 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column nav-compact nav-flat" data-widget="treeview" role="menu" data-accordion="false" id="navigationMenu">
           {{-- Admin Navbar --}}
-          <li class="nav-item">
-            <a href="{{ route('admins.index')}}" class="nav-link @if(Request::routeIs('admins.index')) active @endif">
-              <i class="fas fa-home nav-icon"></i>
-              <p>Home</p>
-            </a>
-          </li>
+          @if (Auth::user()->role_id == 1)
+            <li class="nav-item">
+                <a href="{{ route('admins.index')}}" class="nav-link @if(Request::routeIs('admins.index')) active @endif">
+                <i class="fas fa-home nav-icon"></i>
+                <p>Home</p>
+                </a>
+            </li>
 
-          <li class="nav-item">
-            <a href="{{ route('admins.index') }}" class="nav-link @if(Request::routeIs('admins.index')) active @endif">
-              <i class="fas fa-graduation-cap nav-icon"></i>
-              <p>Profile</p>
-            </a>
-          </li>
+            <li class="nav-item">
+                <a href="{{ route('admins.profile', Auth::user()->id) }}" class="nav-link @if(Request::routeIs('admins.profile') || Request::routeIs('admins.editProfile')) active @endif">
+                <i class="fas fa-graduation-cap nav-icon"></i>
+                <p>Profile</p>
+                </a>
+            </li>
 
-          <li class="nav-item">
-            <a href="{{ route('admins.index') }}" class="nav-link @if(Request::routeIs('admins.index')) active @endif">
-              <i class="fas fa-book nav-icon"></i>
-              <p>Manage Users</p>
-            </a>
-          </li>
+            <li class="nav-item">
+                <a href="{{ route('admins.users') }}" class="nav-link @if(Request::routeIs('admins.users') || Request::routeIs('admins.userProfile')) active @endif">
+                <i class="fas fa-book nav-icon"></i>
+                <p>Manage Users</p>
+                </a>
+            </li>
+          @endif
 
           {{-- Moderator Navbar --}}
-          {{-- <li class="nav-item">
-            <a href="{{ route('moderators.index')}}" class="nav-link @if(Request::routeIs('moderators.index')) active @endif">
-              <i class="fas fa-home nav-icon"></i>
-              <p>Home</p>
-            </a>
-          </li>
+          @if (Auth::user()->role_id == 2)
+            <li class="nav-item">
+                <a href="{{ route('moderators.index')}}" class="nav-link @if(Request::routeIs('moderators.index')) active @endif">
+                <i class="fas fa-home nav-icon"></i>
+                <p>Home</p>
+                </a>
+            </li>
 
-          <li class="nav-item">
-            <a href="{{ route('moderators.index') }}" class="nav-link @if(Request::routeIs('moderators.index')) active @endif">
-              <i class="fas fa-graduation-cap nav-icon"></i>
-              <p>Profile</p>
-            </a>
-          </li>
+            <li class="nav-item">
+                <a href="{{ route('moderators.profile', Auth::user()->id) }}" class="nav-link @if(Request::routeIs('moderators.profile')) active @endif">
+                <i class="fas fa-graduation-cap nav-icon"></i>
+                <p>Profile</p>
+                </a>
+            </li>
 
-          <li class="nav-item">
-            <a href="{{ route('moderators.index') }}" class="nav-link @if(Request::routeIs('moderators.index')) active @endif">
-              <i class="fas fa-graduation-cap nav-icon"></i>
-              <p>Events</p>
-            </a>
-          </li>
+            <li class="nav-item">
+                <a href="{{ route('moderators.index') }}" class="nav-link @if(Request::routeIs('moderators.index')) active @endif">
+                <i class="fas fa-graduation-cap nav-icon"></i>
+                <p>Events</p>
+                </a>
+            </li>
 
-          <li class="nav-item">
-            <a href="{{ route('moderators.index') }}" class="nav-link @if(Request::routeIs('moderators.index')) active @endif">
-              <i class="fas fa-graduation-cap nav-icon"></i>
-              <p>Completed Events</p>
-            </a>
-          </li> --}}
+            <li class="nav-item">
+                <a href="{{ route('moderators.index') }}" class="nav-link @if(Request::routeIs('moderators.index')) active @endif">
+                <i class="fas fa-graduation-cap nav-icon"></i>
+                <p>Completed Events</p>
+                </a>
+            </li>
+          @endif
 
           {{-- Volunteer Navbar --}}
+          @if (Auth::user()->role_id == 3)
+            <li class="nav-item">
+                <a href="{{ route('volunteers.index')}}" class="nav-link @if(Request::routeIs('volunteers.index')) active @endif">
+                <i class="fas fa-home nav-icon"></i>
+                <p>Home</p>
+                </a>
+            </li>
 
-          {{-- <li class="nav-item">
-            <a href="{{ route('volunteers.index')}}" class="nav-link @if(Request::routeIs('volunteers.index')) active @endif">
-              <i class="fas fa-home nav-icon"></i>
-              <p>Home</p>
-            </a>
-          </li>
+            <li class="nav-item">
+                <a href="{{ route('volunteers.profile', Auth::user()->id) }}" class="nav-link @if(Request::routeIs('volunteers.profile')) active @endif">
+                <i class="fas fa-graduation-cap nav-icon"></i>
+                <p>Profile</p>
+                </a>
+            </li>
 
-          <li class="nav-item">
-            <a href="{{ route('volunteers.index') }}" class="nav-link @if(Request::routeIs('volunteers.index')) active @endif">
-              <i class="fas fa-graduation-cap nav-icon"></i>
-              <p>Profile</p>
-            </a>
-          </li>
+            <li class="nav-item">
+                <a href="{{ route('volunteers.index') }}" class="nav-link @if(Request::routeIs('volunteers.index')) active @endif">
+                <i class="fas fa-graduation-cap nav-icon"></i>
+                <p>Events</p>
+                </a>
+            </li>
 
-          <li class="nav-item">
-            <a href="{{ route('volunteers.index') }}" class="nav-link @if(Request::routeIs('volunteers.index')) active @endif">
-              <i class="fas fa-graduation-cap nav-icon"></i>
-              <p>Events</p>
-            </a>
-          </li>
+            <li class="nav-item">
+                <a href="{{ route('volunteers.index') }}" class="nav-link @if(Request::routeIs('volunteers.index')) active @endif">
+                <i class="fas fa-graduation-cap nav-icon"></i>
+                <p>Status</p>
+                </a>
+            </li>
 
-          <li class="nav-item">
-            <a href="{{ route('volunteers.index') }}" class="nav-link @if(Request::routeIs('volunteers.index')) active @endif">
-              <i class="fas fa-graduation-cap nav-icon"></i>
-              <p>Status</p>
-            </a>
-          </li>
-
-          <li class="nav-item">
-            <a href="{{ route('volunteers.index') }}" class="nav-link @if(Request::routeIs('volunteers.index')) active @endif">
-              <i class="fas fa-graduation-cap nav-icon"></i>
-              <p>Assigned Events</p>
-            </a>
-          </li> --}}
+            <li class="nav-item">
+                <a href="{{ route('volunteers.index') }}" class="nav-link @if(Request::routeIs('volunteers.index')) active @endif">
+                <i class="fas fa-graduation-cap nav-icon"></i>
+                <p>Assigned Events</p>
+                </a>
+            </li>
+          @endif
 
           <li class="nav-item">
             <a class="nav-link btn-logout" href="#">
@@ -285,6 +304,8 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- Select2 -->
 <script src="{{ asset('admin/plugins/select2/js/select2.full.min.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.7-beta.0/inputmask.min.js"></script>
+
 <script>
     $(function () {
         //Initialize Select2 Elements
@@ -317,7 +338,8 @@
     @endif
 
     // Logout confirmation
-    document.querySelector('.btn-logout').addEventListener('click', function (event) {
+    document.querySelectorAll('.btn-logout').forEach(function (a) {
+        a.addEventListener('click', function (event) {
             event.preventDefault();
 
             Swal.fire({
@@ -334,6 +356,42 @@
                 }
             });
         });
+    });
+</script>
+<!-- DataTables  & Plugins -->
+<script src="{{ asset('admin/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('admin/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('admin/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('admin/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('admin/plugins/jszip/jszip.min.js') }}"></script>
+<script src="{{ asset('admin/plugins/pdfmake/pdfmake.min.js') }}"></script>
+<script src="{{ asset('admin/plugins/pdfmake/vfs_fonts.js') }}"></script>
+<script src="{{ asset('admin/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+<script src="{{ asset('admin/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+<script src="{{ asset('admin/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+<!-- AdminLTE App -->
+<script src="{{ asset('admin/dist/js/adminlte.min.js') }}"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="{{ asset('admin/dist/js/demo.js') }}"></script>
+<!-- Page specific script -->
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
 </script>
 </body>
 </html>

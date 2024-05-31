@@ -51,11 +51,11 @@
                             <div class="row">
                                 <div class="col-6">
                                     <label for="phone_number" class="input-label">Phone Number</label>
-                                    <input type="text" name="phone_number" id="phone_number" class="form-control" required autocomplete="phone_number" placeholder="0123456789">
+                                    <input type="tel" name="phone_number" id="phone_number" class="form-control" required autocomplete="phone_number" placeholder="0123456789">
                                 </div>
                                 <div class="col-6">
                                     <label for="icno" class="input-label">MyKAD No.</label>
-                                    <input type="text" name="icno" id="icno" class="form-control" required autocomplete="icno" placeholder="012345-67-8901">
+                                    <input type="tel" name="icno" id="icno" class="form-control" required autocomplete="icno" placeholder="012345678901">
                                 </div>
                             </div>
                         </div>
@@ -65,8 +65,8 @@
                                 <div class="col-6">
                                     <label for="gender" class="input-label">Gender</label>
                                     <select name="gender" id="gender" class="form-control select2bs4" required>
-                                        <option value="M" selected>Male</option>
-                                        <option value="F">Female</option>
+                                        <option value="Male" selected>Male</option>
+                                        <option value="Female">Female</option>
                                     </select>
                                 </div>
                                 <div class="col-6">
@@ -85,7 +85,7 @@
                             <div class="row">
                                 <div class="col-6">
                                     <label for="postcode" class="input-label">Postcode</label>
-                                    <input type="text" name="postcode" id="postcode" class="form-control" required autocomplete="postcode" placeholder="XXXXX">
+                                    <input type="tel" name="postcode" id="postcode" class="form-control" required autocomplete="postcode" placeholder="XXXXX">
                                 </div>
                                 <div class="col-6">
                                     <label for="state" class="input-label">State</label>
@@ -114,7 +114,7 @@
                             <textarea name="about" id="about" cols="30" rows="10" class="form-control" placeholder="Tell us a little about yourself..." style="resize: none"></textarea>
                         </div>
 
-                        <div class="btn- float-right">
+                        <div class="btn-row float-right">
                             <button type="submit" class="btn btn-primary">Register</button>
                             <button type="reset" class="btn btn-default">Reset</button>
                             <button type="" class="btn btn-danger">Cancel</button>
@@ -125,4 +125,24 @@
         </div>
     </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.7-beta.0/inputmask.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Apply input mask to phone number
+        Inputmask({
+            mask: '9999999999',
+            placeholder: ' ',
+            showMaskOnHover: false,
+            showMaskOnFocus: false
+        }).mask(document.getElementById('phone_number'));
+
+        // Apply input mask to MyKAD number
+        Inputmask({
+            mask: '999999-99-9999',
+            placeholder: ' ',
+            showMaskOnHover: false,
+            showMaskOnFocus: false
+        }).mask(document.getElementById('icno'));
+    });
+</script>
 @endsection

@@ -28,7 +28,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/volunteer/home';
 
     /**
      * Create a new controller instance.
@@ -49,9 +49,18 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'name'         => ['required', 'string', 'max:255'],
+            'email'        => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password'     => ['required', 'string', 'min:8', 'confirmed'],
+            'icno'         => ['required', 'string', 'max:255'],
+            'gender'       => ['required', 'string', 'max:10'],
+            'dob'          => ['required', 'date'],
+            'phone_number' => ['required', 'string', 'max:20'],
+            'address'      => ['required', 'string', 'max:255'],
+            'state'        => ['required', 'string', 'max:255'],
+            'postcode'     => ['required', 'string', 'max:10'],
+            'about'        => ['nullable', 'string'],
+            'role_id'      => ['nullable', 'integer'],
         ]);
     }
 
@@ -64,9 +73,18 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'name'         => $data['name'],
+            'email'        => $data['email'],
+            'password'     => Hash::make($data['password']),
+            'icno'         => $data['icno'],
+            'gender'       => $data['gender'],
+            'dob'          => $data['dob'],
+            'phone_number' => $data['phone_number'],
+            'address'      => $data['address'],
+            'state'        => $data['state'],
+            'postcode'     => $data['postcode'],
+            'about'        => $data['about'],
+            'role_id'      => 3,
         ]);
     }
 }

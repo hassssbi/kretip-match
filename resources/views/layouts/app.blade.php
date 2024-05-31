@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Kretip Match') }}</title>
-    <link rel="icon" href="{{ asset('admin/dist/icon/UITM LOGO.ico')}}">
+    <link rel="icon" href="{{ asset('admin/dist/icon/km-logo.ico')}}">
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
@@ -44,7 +44,6 @@
     main, html, body {
         background-color: whitesmoke;
     }
-
 
     li.nav-item {
         margin-right: .5em
@@ -149,6 +148,8 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- Optional: Include jQuery if you want to use it -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.7-beta.0/inputmask.min.js"></script>
+
 @stack('scripts')
 
 <script>
@@ -168,6 +169,5 @@
         });
     @endif
 </script>
-
 </body>
 </html>

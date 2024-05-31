@@ -5,7 +5,7 @@
         <div class="col-7">
             <h2>About Us</h2>
             <p>
-                A non-governmesntal organization serving Malaysian youth is called Kretip Malaya. The establishment of Kretip Malaya took place on January 20, 2021. This group is a club for young and innovative people. The terms "creative" and "tips" are combined in the name of this company in the Bahasa Malaysian language, and Malaya alludes to our nation, Malaysia. The Kretip Malaya merchandise produced is one of the efforts to raise money to assist those in need since Kretip Malaya is a group that frequently engages in humanitarian activities to support everyone who is in need.
+                A non-governmental organization serving Malaysian youth is called <strong>Kretip Malaya</strong>. The establishment of Kretip Malaya took place on January 20, 2021. This group is a club for young and innovative people. The terms "creative" and "tips" are combined in the name of this company in the Malaysian language, and Malaya alludes to our nation, Malaysia. The Kretip Malaya merchandise produced is one of the efforts to raise money to assist those in need since Kretip Malaya is a group that frequently engages in humanitarian activities to support everyone who is in need.
             </p>
         </div>
         <div class="col-3">

@@ -12,7 +12,11 @@ class ModeratorController extends Controller
      */
     public function index()
     {
-        //
+        $breadcrumbs = [
+            ['name' => 'Home', 'url' => route('moderators.index')],
+            ['name' => 'Dashboard', 'url' => route('moderators.index')]
+        ];
+        return view('moderators.index', compact('breadcrumbs'));
     }
 
     /**
