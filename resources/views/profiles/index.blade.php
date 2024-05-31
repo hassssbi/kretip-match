@@ -5,7 +5,7 @@
         <div class="row justify-content-between">
             <div class="col-6">
                 <div class="widget-user-image">
-                    <img class="img-circle elevation-2" src="{{ asset('admin/dist/img/fsjal.png') }}" alt="User Avatar">
+                    <img class="img-circle elevation-2" src="{{ Request::routeIs('admins.profile') || Request::routeIs('admins.editProfile') || Request::routeIs('admins.changePassword') ? Storage::url(Auth::user()->image) : (isset($user->image) ? Storage::url($user->image) : asset('admin/dist/img/default-user.png')) }}" alt="User Avatar">
                 </div>
                 <h3 class="widget-user-username">{{ $user->name }}</h3>
                 <h5 class="widget-user-desc">{{ $user->role->name }}</h5>

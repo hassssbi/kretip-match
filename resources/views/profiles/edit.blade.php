@@ -6,7 +6,7 @@
         <div class="row justify-content-between">
             <div class="col-6">
                 <div class="widget-user-image">
-                    <img class="img-circle elevation-2" src="{{ asset('admin/dist/img/fsjal.png') }}" alt="User Avatar">
+                    <img class="img-circle elevation-2" src="{{ Storage::url(Auth::user()->image) }}" alt="User Avatar">
                 </div>
                 <h3 class="widget-user-username">{{ $user->name }}</h3>
                 <h5 class="widget-user-desc">{{ $user->role->name }}</h5>
@@ -15,7 +15,7 @@
 
     </div>
     <div class="card-body p-5">
-        <form action="{{ getRoleBasedRoute($user->role_id, 'updateProfile', $user->id) }}" method="post">
+        <form action="{{ getRoleBasedRoute($user->role_id, 'updateProfile', $user->id) }}" method="post" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="col-12 border-bottom mb-2">
@@ -106,6 +106,16 @@
             <div class="form-group">
                 <label for="about" class="input-label">About You</label>
                 <textarea name="about" id="about" cols="30" rows="10" class="form-control" placeholder="Tell us a little about yourself..." style="resize: none">{{ $user->about }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="image" class="input-label">Profile Image</label>
+                <input type="file" name="image" id="image" class="form-control @error('image') is-invalid @enderror">
+                @error('image')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
             </div>
 
             <div class="btn-row text-end">

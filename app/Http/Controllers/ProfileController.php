@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
+
 
 class ProfileController extends Controller
 {
@@ -42,23 +44,26 @@ class ProfileController extends Controller
             'state'        => ['required', 'string', 'max:255'],
             'postcode'     => ['required', 'string', 'max:10'],
             'about'        => ['nullable', 'string'],
+            'image'        => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
         ]);
 
-        // $student->update($request->all());
+        // Handle the image upload
+        if ($request->hasFile('image')) {
+            // Delete the old image if it exists
+            if ($user->image) {
+                Storage::delete('public/profile_images/'.$user->image);
+            }
 
-        $user->update([
-            'name'         => $request->name,
-            'email'        => $request->email,
-            'icno'         => $request->icno,
-            'gender'       => $request->gender,
-            'dob'          => $request->dob,
-            'phone_number' => $request->phone_number,
-            'address'      => $request->address,
-            'state'        => $request->state,
-            'postcode'     => $request->postcode,
-            'about'        => $request->about,
-        ]);
+            // Upload the new image
+            $imageName = time().'.'.$request->image->extension();
+            $request->image->storeAs('public/profile_images', $imageName);
 
+            // Add the image name to the validated data array
+            $validatedData['image'] = "profile_images/$imageName";
+        }
+
+        // Update the user with the validated data
+        $user->update($validatedData);
 
         // Determine the redirect URL based on the user's role
         $redirectUrl = getRoleBasedRoute($user->role_id, 'profile', $user->id);

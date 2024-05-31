@@ -31,6 +31,7 @@ class User extends Authenticatable
         'state',
         'postcode',
         'about',
+        'image',
         'role_id',
     ];
 

@@ -61,6 +61,7 @@ class RegisterController extends Controller
             'postcode'     => ['required', 'string', 'max:10'],
             'about'        => ['nullable', 'string'],
             'role_id'      => ['nullable', 'integer'],
+            'image'        => ['nullable', 'image', 'max:2048'],
         ]);
     }
 
@@ -72,7 +73,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $userData = [
             'name'         => $data['name'],
             'email'        => $data['email'],
             'password'     => Hash::make($data['password']),
@@ -85,6 +86,28 @@ class RegisterController extends Controller
             'postcode'     => $data['postcode'],
             'about'        => $data['about'],
             'role_id'      => 3,
-        ]);
+        ];
+
+        if (isset($data['image'])) {
+            $path = $data['image']->store('profile_images', 'public'); // Store the image in the 'profile_images' directory in the 'public' disk
+            $userData['image'] = $path;
+        }
+
+        return User::create($userData);
+
+        /* return User::create([
+            'name'         => $data['name'],
+            'email'        => $data['email'],
+            'password'     => Hash::make($data['password']),
+            'icno'         => $data['icno'],
+            'gender'       => $data['gender'],
+            'dob'          => $data['dob'],
+            'phone_number' => $data['phone_number'],
+            'address'      => $data['address'],
+            'state'        => $data['state'],
+            'postcode'     => $data['postcode'],
+            'about'        => $data['about'],
+            'role_id'      => 3,
+        ]); */
     }
 }

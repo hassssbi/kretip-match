@@ -24,7 +24,8 @@ return new class extends Migration
             $table->string('address');
             $table->string('state');
             $table->string('postcode');
-            $table->text('about');
+            $table->text('about')->nullable();
+            $table->string('image')->nullable();
             $table->unsignedInteger('role_id');
             $table->rememberToken();
             $table->timestamps();

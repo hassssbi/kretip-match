@@ -9,9 +9,9 @@
                     <h2 class="text-center">Registration</h2>
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                         @csrf
-
+                        @method('POST')
                         <div class="form-group">
                             <label for="name" class="input-label">Full Name</label>
                             <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus placeholder="ALI BIN ABU">
@@ -114,10 +114,20 @@
                             <textarea name="about" id="about" cols="30" rows="10" class="form-control" placeholder="Tell us a little about yourself..." style="resize: none"></textarea>
                         </div>
 
+                        <div class="form-group">
+                            <label for="image" class="input-label">Profile Image</label>
+                            <input type="file" name="image" id="image" class="form-control @error('image') is-invalid @enderror">
+                            @error('image')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+
                         <div class="btn-row float-right">
                             <button type="submit" class="btn btn-primary">Register</button>
                             <button type="reset" class="btn btn-default">Reset</button>
-                            <button type="" class="btn btn-danger">Cancel</button>
+                            <a href="{{ url('/') }}" class="btn btn-danger">Cancel</a>
                         </div>
                     </form>
                 </div>
@@ -125,24 +135,4 @@
         </div>
     </div>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.7-beta.0/inputmask.min.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Apply input mask to phone number
-        Inputmask({
-            mask: '9999999999',
-            placeholder: ' ',
-            showMaskOnHover: false,
-            showMaskOnFocus: false
-        }).mask(document.getElementById('phone_number'));
-
-        // Apply input mask to MyKAD number
-        Inputmask({
-            mask: '999999-99-9999',
-            placeholder: ' ',
-            showMaskOnHover: false,
-            showMaskOnFocus: false
-        }).mask(document.getElementById('icno'));
-    });
-</script>
 @endsection
