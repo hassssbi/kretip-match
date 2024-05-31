@@ -116,7 +116,7 @@
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column nav-compact nav-flat" data-widget="treeview" role="menu" data-accordion="false" id="navigationMenu">
+        <ul class="nav nav-pills nav-sidebar flex-column nav-flat" data-widget="treeview" role="menu" data-accordion="false" id="navigationMenu">
           {{-- Admin Navbar --}}
           @if (Auth::user()->role_id == 1)
             <li class="nav-item">
@@ -128,14 +128,14 @@
 
             <li class="nav-item">
                 <a href="{{ route('admins.profile', Auth::user()->id) }}" class="nav-link @if(Request::routeIs('admins.profile') || Request::routeIs('admins.editProfile')) active @endif">
-                <i class="fas fa-graduation-cap nav-icon"></i>
+                <i class="fas fa-user-secret nav-icon"></i>
                 <p>Profile</p>
                 </a>
             </li>
 
             <li class="nav-item">
                 <a href="{{ route('admins.users') }}" class="nav-link @if(Request::routeIs('admins.users') || Request::routeIs('admins.userProfile')) active @endif">
-                <i class="fas fa-book nav-icon"></i>
+                <i class="fas fa-users nav-icon"></i>
                 <p>Manage Users</p>
                 </a>
             </li>
@@ -152,21 +152,21 @@
 
             <li class="nav-item">
                 <a href="{{ route('moderators.profile', Auth::user()->id) }}" class="nav-link @if(Request::routeIs('moderators.profile')) active @endif">
-                <i class="fas fa-graduation-cap nav-icon"></i>
+                <i class="fa fa-user-tie nav-icon"></i>
                 <p>Profile</p>
                 </a>
             </li>
 
             <li class="nav-item">
                 <a href="{{ route('moderators.index') }}" class="nav-link @if(Request::routeIs('moderators.index')) active @endif">
-                <i class="fas fa-graduation-cap nav-icon"></i>
+                <i class="fas fa-calendar nav-icon"></i>
                 <p>Events</p>
                 </a>
             </li>
 
             <li class="nav-item">
                 <a href="{{ route('moderators.index') }}" class="nav-link @if(Request::routeIs('moderators.index')) active @endif">
-                <i class="fas fa-graduation-cap nav-icon"></i>
+                <i class="fas fa-calendar-check nav-icon"></i>
                 <p>Completed Events</p>
                 </a>
             </li>
@@ -183,28 +183,28 @@
 
             <li class="nav-item">
                 <a href="{{ route('volunteers.profile', Auth::user()->id) }}" class="nav-link @if(Request::routeIs('volunteers.profile')) active @endif">
-                <i class="fas fa-graduation-cap nav-icon"></i>
+                <i class="fa fa-user nav-icon"></i>
                 <p>Profile</p>
                 </a>
             </li>
 
             <li class="nav-item">
                 <a href="{{ route('volunteers.index') }}" class="nav-link @if(Request::routeIs('volunteers.index')) active @endif">
-                <i class="fas fa-graduation-cap nav-icon"></i>
+                <i class="fas fa-calendar nav-icon"></i>
                 <p>Events</p>
                 </a>
             </li>
 
             <li class="nav-item">
                 <a href="{{ route('volunteers.index') }}" class="nav-link @if(Request::routeIs('volunteers.index')) active @endif">
-                <i class="fas fa-graduation-cap nav-icon"></i>
+                <i class="fas fa-tasks nav-icon"></i>
                 <p>Status</p>
                 </a>
             </li>
 
             <li class="nav-item">
                 <a href="{{ route('volunteers.index') }}" class="nav-link @if(Request::routeIs('volunteers.index')) active @endif">
-                <i class="fas fa-graduation-cap nav-icon"></i>
+                <i class="fas fa-calendar-check nav-icon"></i>
                 <p>Assigned Events</p>
                 </a>
             </li>
@@ -262,11 +262,8 @@
 </div>
 <!-- ./wrapper -->
 
-<!-- jQuery -->
-<script src="{{ asset('admin/plugins/jquery/jquery.min.js') }}"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="{{ asset('admin/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
-
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
   $.widget.bridge('uibutton', $.ui.button)
