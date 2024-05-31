@@ -76,21 +76,13 @@
                         <div class="title pb-2">
                             <h4>New Members</h4>
                         </div>
-                        <div class="card">
-                            <div class="card-body">
-                                <p>Volunteer</p>
+                        @foreach($newMembers as $member)
+                            <div class="card mb-2">
+                                <div class="card-body">
+                                    <p class="text-lg text-bold mb-0">{{ $member->name }}<br><span class="text-sm">({{ $member->role->name }})</span></p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-body">
-                                <p>Volunteer</p>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-body">
-                                <p>Volunteer</p>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>

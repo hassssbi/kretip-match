@@ -20,11 +20,13 @@ class AdminController extends Controller
         $vcount = User::where('role_id', 3)->count();
         $year = Carbon::now()->year;
 
+        $newMembers = User::latest()->take(3)->get();
+
         $breadcrumbs = [
             ['name' => 'Home', 'url' => route('admins.index')],
             ['name' => 'Dashboard', 'url' => route('admins.index')]
         ];
-        return view('admins.index', compact('breadcrumbs', 'acount', 'mcount', 'vcount', 'year',));
+        return view('admins.index', compact('breadcrumbs', 'acount', 'mcount', 'vcount', 'year', 'newMembers'));
     }
 
     public function users()
