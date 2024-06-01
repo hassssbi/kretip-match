@@ -14,14 +14,14 @@ return new class extends Migration
         Schema::create('events', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->string('start_date');
             $table->string('end_date');
             $table->string('start_time');
             $table->string('end_time');
-            $table->string('location');
+            $table->string('location')->nullable();
             $table->string('status');
-            $table->string('image_path');
+            $table->string('poster')->nullable();
             $table->unsignedInteger('num_of_needed_vol');
             $table->unsignedInteger('user_id');
             $table->timestamps();

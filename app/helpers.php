@@ -28,6 +28,8 @@ if (! function_exists('getRoleBasedRoute')) {
                 return route("{$baseRoute}.editProfile", $userId);
             case 'updateProfile':
                 return route("{$baseRoute}.updateProfile", $userId);
+            case 'events':
+                return route("{$baseRoute}.events", $userId);
             default:
                 return '#';
         }

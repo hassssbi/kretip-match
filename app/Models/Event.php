@@ -20,7 +20,7 @@ class Event extends Model
         'end_time',
         'location',
         'status',
-        'image_path',
+        'poster',
         'num_of_needed_vol',
         'user_id',
     ];

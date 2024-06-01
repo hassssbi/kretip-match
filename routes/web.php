@@ -57,7 +57,13 @@ Route::prefix('moderator')->name('moderators.')->group(function () {
     Route::put('/profile/{user}', [ProfileController::class, 'update'])->name('updateProfile');
     Route::get('/profile/{user}/change-password', [ProfileController::class, 'changePassword'])->name('changePassword');
     Route::put('/profile/{user}/change-password', [ProfileController::class, 'savePassword'])->name('savePassword');
-    Route::get('/events', [ModeratorController::class, 'eventsList'])->name('events');
+    Route::get('/events', [EventController::class, 'index'])->name('events');
+    Route::get('/events/create', [EventController::class, 'create'])->name('createEvent');
+    Route::post('/events/{user}', [EventController::class, 'store'])->name('storeEvent');
+    Route::get('/events/{event}', [EventController::class, 'show'])->name('viewEvent');
+    Route::get('/events/{event}/edit', [EventController::class, 'edit'])->name('editEvent');
+    Route::put('/events/{event}', [EventController::class, 'update'])->name('updateEvent');
+    Route::delete('/events/{event}', [EventController::class, 'destroy'])->name('deleteEvent');
     Route::get('/completed-events', [ModeratorController::class, 'completedEventsList'])->name('completedEvents');
 });
 

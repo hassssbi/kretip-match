@@ -155,7 +155,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('moderators.index') }}" class="nav-link @if(Request::routeIs('moderators.index')) active @endif">
+                <a href="{{ route('moderators.events') }}" class="nav-link @if(Request::routeIs('moderators.events') || Request::routeIs('moderators.createEvent') || Request::routeIs('moderators.editEvent') || Request::routeIs('moderators.viewEvent')) active @endif">
                 <i class="fas fa-calendar nav-icon"></i>
                 <p>Events</p>
                 </a>
@@ -294,7 +294,9 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- Select2 -->
 <script src="{{ asset('admin/plugins/select2/js/select2.full.min.js')}}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.7-beta.0/inputmask.min.js"></script>
+<!-- InputMask -->
+<script src="{{ asset('admin/plugins/moment/moment.min.js') }}"></script>
+<script src="{{ asset('admin/plugins/inputmask/jquery.inputmask.min.js') }}"></script>
 
 <script>
     $(function () {
