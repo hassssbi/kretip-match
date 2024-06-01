@@ -162,7 +162,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('moderators.index') }}" class="nav-link @if(Request::routeIs('moderators.index')) active @endif">
+                <a href="{{ route('moderators.completedEvents') }}" class="nav-link @if(Request::routeIs('moderators.completedEvents') || Request::routeIs('moderators.viewCompletedEvent')) active @endif">
                 <i class="fas fa-calendar-check nav-icon"></i>
                 <p>Completed Events</p>
                 </a>

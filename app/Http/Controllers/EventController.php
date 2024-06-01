@@ -155,4 +155,28 @@ class EventController extends Controller
         // Redirect with success message
         return redirect()->route('moderators.events')->with('success', 'Event deleted successfully!');
     }
+
+    public function completedEventsList()
+    {
+        $breadcrumbs = [
+            ['name' => 'Home', 'url' => route('moderators.index')],
+            ['name' => 'Completed Events', 'url' => route('moderators.completedEvents')],
+        ];
+
+        $events = Event::where('status', 'Completed')->get();
+        $events = Event::all();
+
+        return view('events.completed', compact('breadcrumbs', 'events'));
+    }
+
+    public function viewCompletedEvent(Event $event)
+    {
+        $breadcrumbs = [
+            ['name' => 'Home', 'url' => route('moderators.index')],
+            ['name' => 'Completed Events', 'url' => route('moderators.completedEvents')],
+            ['name' => 'View Completed Events', 'url' => route('moderators.viewCompletedEvent', $event->id)],
+        ];
+
+        return view('events.viewCompleted', compact('breadcrumbs', 'event'));
+    }
 }

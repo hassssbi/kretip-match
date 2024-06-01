@@ -64,7 +64,8 @@ Route::prefix('moderator')->name('moderators.')->group(function () {
     Route::get('/events/{event}/edit', [EventController::class, 'edit'])->name('editEvent');
     Route::put('/events/{event}', [EventController::class, 'update'])->name('updateEvent');
     Route::delete('/events/{event}', [EventController::class, 'destroy'])->name('deleteEvent');
-    Route::get('/completed-events', [ModeratorController::class, 'completedEventsList'])->name('completedEvents');
+    Route::get('/completed-events', [EventController::class, 'completedEventsList'])->name('completedEvents');
+    Route::get('/completed-events/{event}', [EventController::class, 'viewCompletedEvent'])->name('viewCompletedEvent');
 });
 
 // Admin Routes
