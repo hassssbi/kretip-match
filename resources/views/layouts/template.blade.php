@@ -155,14 +155,14 @@
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('moderators.events') }}" class="nav-link @if(Request::routeIs('moderators.events') || Request::routeIs('moderators.createEvent') || Request::routeIs('moderators.editEvent') || Request::routeIs('moderators.viewEvent')) active @endif">
+                <a href="{{ route('moderators.events') }}" class="nav-link @if(Request::routeIs('moderators.events') || Request::routeIs('moderators.createEvent') || Request::routeIs('moderators.editEvent') || Request::routeIs('moderators.viewEvent') || Request::routeIs('moderators.applications')) active @endif">
                 <i class="fas fa-calendar nav-icon"></i>
                 <p>Events</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('moderators.completedEvents') }}" class="nav-link @if(Request::routeIs('moderators.completedEvents') || Request::routeIs('moderators.viewCompletedEvent')) active @endif">
+                <a href="{{ route('moderators.completedEvents') }}" class="nav-link @if(Request::routeIs('moderators.completedEvents') || Request::routeIs('moderators.viewCompletedEvent') || Request::routeIs('moderators.feedbacks')) active @endif">
                 <i class="fas fa-calendar-check nav-icon"></i>
                 <p>Completed Events</p>
                 </a>
