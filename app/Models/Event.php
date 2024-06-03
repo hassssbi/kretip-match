@@ -24,4 +24,9 @@ class Event extends Model
         'num_of_needed_vol',
         'user_id',
     ];
+
+    public function applications()
+    {
+        return $this->hasMany(Application::class);
+    }
 }

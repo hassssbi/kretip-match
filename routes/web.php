@@ -44,9 +44,12 @@ Route::prefix('volunteer')->name('volunteers.')->group(function () {
     Route::put('/profile/{user}', [ProfileController::class, 'update'])->name('updateProfile');
     Route::get('/profile/{user}/change-password', [ProfileController::class, 'changePassword'])->name('changePassword');
     Route::put('/profile/{user}/change-password', [ProfileController::class, 'savePassword'])->name('savePassword');
-    Route::get('/events', [VolunteerController::class, 'eventsList'])->name('events');
-    Route::get('/status', [VolunteerController::class, 'statusList'])->name('status');
-    Route::get('/assigned-events', [VolunteerController::class, 'assignedEvents'])->name('assignedEvents');
+    Route::get('/events', [EventController::class, 'eventsList'])->name('events');
+    Route::get('/events/{event}', [EventController::class, 'eventDetails'])->name('eventDetails');
+    Route::get('/status/{user}', [ApplicationController::class, 'statusList'])->name('status');
+    Route::get('/status/{user}/{status?}', [ApplicationController::class, 'statusList'])->name('status');
+    Route::get('/status/{user}/{application}', [ApplicationController::class, 'statusDetails'])->name('statusDetails');
+    Route::get('/assigned-events/{user}', [EventController::class, 'assignedEvents'])->name('assignedEvents');
 });
 
 // Moderator Routes

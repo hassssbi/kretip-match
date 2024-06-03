@@ -25,6 +25,29 @@ class ApplicationController extends Controller
         return view('applications.index', compact('breadcrumbs', 'applications', 'event'));
     }
 
+    public function statusList(User $user, $status = null)
+    {
+        $breadcrumbs = [
+            ['name' => 'Home', 'url' => route('moderators.index')],
+            ['name' => 'Applications Status', 'url' => route('volunteers.status', $user->id)],
+        ];
+
+        $query = Application::where('user_id', $user->id);
+
+        if ($status) {
+            $query->where('status', $status);
+        }
+
+        $applications = $query->with('event')->get();
+
+        return view('applications.statusList', compact('breadcrumbs', 'applications', 'status'));
+    }
+
+    public function statusDetails()
+    {
+        //
+    }
+
     /**
      * Show the form for creating a new resource.
      */

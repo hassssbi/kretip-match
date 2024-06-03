@@ -38,8 +38,10 @@
                                             <button type="submit" class="btn btn-danger btn-delete">Delete</button>
                                         @endif
                                     </form>
-                                @else
+                                @elseif (Request::routeIs('moderators.completedEvents'))
                                     <a href="{{ route('moderators.completedEvents') }}" class="btn btn-default">Back</a>
+                                @else
+                                    <a href="{{ route('volunteers.events') }}" class="btn btn-default">Back</a>
                                 @endif
                             </div>
                         </div>
@@ -68,13 +70,28 @@
                         <div class="btn-row text-end">
                             <a href="{{ route('moderators.applications', $event->id) }}" class="btn btn-warning">View Applications</a>
                         </div>
-                    @else
+                    @elseif (Request::routeIs('moderators.viewCompletedEvent'))
                         <div class="title text-center">
                             <h4>Number of Volunteers</h4>
                         </div>
                         <h2 class="text-center my-5">{{ isset($event->volunteers) ?: '0' }}</h2>
                         <div class="btn-row text-end">
                             <a href="{{ route('moderators.feedbacks', $event->id) }}" class="btn btn-warning">View Feedbacks</a>
+                        </div>
+                    @else
+                        <div class="title text-center">
+                            <h4>Interested?</h4>
+                        </div>
+                        <p class="card-text">
+                            We are looking for volunteers who are:
+                            <ul>
+                                <li>Enthusiastic</li>
+                                <li>Reliable</li>
+                                <li>Teamplayer</li>
+                            </ul>
+                        </p>
+                        <div class="btn-row text-end">
+                            <a href="#" class="btn btn-primary">Apply</a>
                         </div>
                     @endif
                 </div>

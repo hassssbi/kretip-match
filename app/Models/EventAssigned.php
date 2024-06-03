@@ -5,18 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Application extends Model
+class EventAssigned extends Model
 {
     use HasFactory;
 
-    public $table = 'applications';
+    protected $table = 'events_assigned';
 
     protected $fillable = [
-        'status',
-        'message',
         'user_id',
-        'event_id',
-        'mod_id',
+        'event_id'
     ];
 
     public function event()

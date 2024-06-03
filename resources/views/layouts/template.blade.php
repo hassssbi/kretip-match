@@ -186,21 +186,21 @@
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('volunteers.index') }}" class="nav-link @if(Request::routeIs('volunteers.index')) active @endif">
+                <a href="{{ route('volunteers.events') }}" class="nav-link @if(Request::routeIs('volunteers.events') || Request::routeIs('volunteers.eventDetails')) active @endif">
                 <i class="fas fa-calendar nav-icon"></i>
                 <p>Events</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('volunteers.index') }}" class="nav-link @if(Request::routeIs('volunteers.index')) active @endif">
+                <a href="{{ route('volunteers.status', Auth::user()->id) }}" class="nav-link @if(Request::routeIs('volunteers.status') || Request::routeIs('volunteers.statusDetails')) active @endif">
                 <i class="fas fa-tasks nav-icon"></i>
                 <p>Status</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('volunteers.index') }}" class="nav-link @if(Request::routeIs('volunteers.index')) active @endif">
+                <a href="{{ route('volunteers.assignedEvents', Auth::user()->id) }}" class="nav-link @if(Request::routeIs('volunteers.assignedEvents')) active @endif">
                 <i class="fas fa-calendar-check nav-icon"></i>
                 <p>Assigned Events</p>
                 </a>

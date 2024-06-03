@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\EventAssigned;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -178,5 +179,56 @@ class EventController extends Controller
         ];
 
         return view('events.viewCompleted', compact('breadcrumbs', 'event'));
+    }
+
+    public function eventsList(Request $request)
+    {
+        $breadcrumbs = [
+            ['name' => 'Home', 'url' => route('volunteers.index')],
+            ['name' => 'Events', 'url' => route('volunteers.events')],
+        ];
+
+        if($request->query('search') !== null) {
+            $search = $request->query('search');
+
+            $events = Event::query()
+                ->when($search, function ($query, $search) {
+                    return $query->where('title', 'LIKE', "%{$search}%")
+                                ->orWhere('description', 'LIKE', "%{$search}%")
+                                ->orWhere('location', 'LIKE', "%{$search}%");
+                })
+                ->get();
+        } else {
+            $events = Event::all();
+        }
+
+        return view('events.eventsList', compact('breadcrumbs', 'events'));
+    }
+
+    public function eventDetails(Event $event)
+    {
+        $breadcrumbs = [
+            ['name' => 'Home', 'url' => route('volunteers.index')],
+            ['name' => 'Events', 'url' => route('volunteers.events')],
+            ['name' => 'Events Details', 'url' => route('volunteers.eventDetails', $event->id)],
+        ];
+
+        return view('events.eventDetails', compact('breadcrumbs', 'event'));
+    }
+
+    public function assignedEvents(User $user)
+    {
+        $breadcrumbs = [
+            ['name' => 'Home', 'url' => route('volunteers.index')],
+            ['name' => 'Assigned Events', 'url' => route('volunteers.assignedEvents', $user->id)],
+        ];
+
+        // Query to select events that the volunteer has been assigned to
+        $assignedEvents = EventAssigned::with('event')
+                            ->where('user_id', $user->id)
+                            ->get()
+                            ->pluck('event');
+
+        return view('events.assignedEvents', compact('breadcrumbs', 'assignedEvents'));
     }
 }
