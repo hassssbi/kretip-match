@@ -1,128 +1,109 @@
 @extends('layouts.template')
 @section('content')
 
-<div class="card">
-    <div class="card-body">
-        <div class="row justify-content-center">
-            <div class="col-8">
+    <div class="row">
+        <div class="col-12 justify-content-center">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-4">
+                            <img src="{{ Storage::url($event->poster) }}" alt="" style="height: 200px">
+                        </div>
+                        <div class="col-8">
+                            <dl class="row">
+                                <dt class="col-3">Event Title</dt>
+                                <dd class="col-9">{{ $event->title }}</dd>
 
-                <div class="col-12 border-bottom mb-2">
-                    <h3>Event Details</h3>
-                </div>
+                                <dt class="col-3">Description</dt>
+                                <dd class="col-9">{{ $event->description }}</dd>
 
-                <div class="form-group">
-                    <label for="title" class="input-label">Title</label>
-                    <input id="title" type="text" readonly class="form-control-plaintext @error('title') is-invalid @enderror" name="title" value="{{ $event->title }}" required autocomplete="title" autofocus placeholder="EG: Buskernita Competition">
-                    @error('title')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
+                                <dt class="col-3">Date</dt>
+                                <dd class="col-9">{{ $event->start_date }} to {{ $event->end_date }}</dd>
 
-                <div class="form-group">
-                    <label for="description" class="input-label">Description</label>
-                    <textarea name="description" id="description" cols="30" rows="10" readonly class="form-control-plaintext" placeholder="Give a little description about the event..." style="resize: none">{{ $event->description }}</textarea>
-                    @error('description')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
+                                <dt class="col-3">Location</dt>
+                                <dd class="col-9">{{ $event->location }}</dd>
 
-                <div class="row">
-                    <div class="col-3">
-                        <div class="form-group">
-                            <label for="num_of_needed_vol" class="input-label">Volunteers Needed</label>
-                            <input id="num_of_needed_vol" type="number" readonly class="form-control-plaintext @error('num_of_needed_vol') is-invalid @enderror" name="num_of_needed_vol" value="{{ $event->num_of_needed_vol }}" min="0" required autocomplete="num_of_needed_vol">
-                            @error('num_of_needed_vol')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
+                                <dt class="col-3">Volunteers Needed</dt>
+                                <dd class="col-9">{{ $event->num_of_needed_vol }}</dd>
+                            </dl>
+
+                            <div class="btn-row text-end">
+                                @if (Request::routeIs('moderators.viewEvent'))
+                                    <form action="{{ route('moderators.deleteEvent', $event->id) }}" method="post">
+                                        <a href="{{ route('moderators.events') }}" class="btn btn-default">Back</a>
+                                        @csrf
+                                        @method('DELETE')
+                                        @if (Auth::user()->id == $event->user_id)
+                                            <a href="{{ route('moderators.editEvent', $event->id) }}" class="btn btn-primary">Edit</a>
+                                            <button type="submit" class="btn btn-danger btn-delete">Delete</button>
+                                        @endif
+                                    </form>
+                                @else
+                                    <a href="{{ route('moderators.completedEvents') }}" class="btn btn-default">Back</a>
+                                @endif
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label for="start_date" class="input-label">Start Date</label>
-                            <input id="start_date" type="date" readonly class="form-control-plaintext @error('start_date') is-invalid @enderror" name="start_date" value="{{ $event->start_date }}" required autocomplete="start_date">
-                            @error('start_date')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label for="end_date" class="input-label">End Date</label>
-                            <input id="end_date" type="date" readonly class="form-control-plaintext @error('end_date') is-invalid @enderror" name="end_date" value="{{ $event->end_date }}" required autocomplete="end_date">
-                            @error('end_date')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="row">
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label for="start_time" class="input-label">Start Time</label>
-                            <input id="start_time" type="time" readonly class="form-control-plaintext @error('start_time') is-invalid @enderror" name="start_time" value="{{ $event->start_time }}" required autocomplete="start_time">
-                            @error('start_time')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label for="end_time" class="input-label">End Time</label>
-                            <input id="end_time" type="time" readonly class="form-control-plaintext @error('end_time') is-invalid @enderror" name="end_time" value="{{ $event->end_time }}" required autocomplete="end_time">
-                            @error('end_time')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="location" class="input-label">Location</label>
-                    <input id="location" type="text" readonly class="form-control-plaintext @error('location') is-invalid @enderror" name="location" value="{{ $event->location }}" required autocomplete="location" autofocus placeholder="Kuala Lumpur">
-                    @error('location')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-
-                <div class="form-group">
-                    <label for="poster" class="input-label">Poster</label>
-                    <div class="image form-image mt-2">
-                        <img src="{{ Storage::url($event->poster) }}" alt="poster" style="height: 25vh">
-                    </div>
-                    @error('poster')
-                    <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-
-                <div class="btn-row text-end">
-                    <a href="{{ route('moderators.events') }}" class="btn btn-default">Back</a>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
+    <div class="row">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body card-info">
+                    <p class="p-5">map</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    @if (Request::routeIs('moderators.viewEvent'))
+                        <div class="title text-center">
+                            <h4>Number of Applications</h4>
+                        </div>
+                        <h2 class="text-center my-5">{{ isset($event->applications) ?: '0' }}</h2>
+                        <div class="btn-row text-end">
+                            <a href="{{ route('moderators.applications', $event->id) }}" class="btn btn-warning">View Applications</a>
+                        </div>
+                    @else
+                        <div class="title text-center">
+                            <h4>Number of Volunteers</h4>
+                        </div>
+                        <h2 class="text-center my-5">{{ isset($event->volunteers) ?: '0' }}</h2>
+                        <div class="btn-row text-end">
+                            <a href="{{ route('moderators.feedbacks', $event->id) }}" class="btn btn-warning">View Feedbacks</a>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+
+@push('scripts')
+    <script>
+        document.querySelectorAll('.btn-delete').forEach(button => {
+            button.addEventListener('click', function (event) {
+                event.preventDefault();
+                const form = this.closest('form');
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    </script>
+@endpush
 @endsection
