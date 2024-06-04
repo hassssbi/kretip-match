@@ -15,9 +15,9 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $acount = User::where('role_id', 1)->count();
-        $mcount = User::where('role_id', 2)->count();
-        $vcount = User::where('role_id', 3)->count();
+        $acount = User::admins()->count();
+        $mcount = User::moderators()->count();
+        $vcount = User::volunteers()->count();
         $year = Carbon::now()->year;
 
         $newMembers = User::latest()->take(3)->get();
@@ -146,9 +146,9 @@ class AdminController extends Controller
             $registrationData[$i] = $registrations[$i] ?? 0;
         }
 
-        $acount = User::where('role_id', 1)->count();
-        $mcount = User::where('role_id', 2)->count();
-        $vcount = User::where('role_id', 3)->count();
+        $acount = User::admins()->count();
+        $mcount = User::moderators()->count();
+        $vcount = User::volunteers()->count();
 
         $breadcrumbs = [
             ['name' => 'Home', 'url' => route('admins.index')],

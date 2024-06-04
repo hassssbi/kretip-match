@@ -21,7 +21,9 @@
                             <td>{{ $u->name }}</td>
                             <td>{{ $u->icno }}</td>
                             <td>{{ $u->phone_number }}</td>
-                            <td>{{ $u->role->name }}</td>
+                            <td>
+                                <div class="badge {{ $u->role->id == 1 ? 'badge-warning' : ($u->role->id == 2 ? 'badge-success' : 'badge-info') }} ">{{ $u->role->name }}</div>
+                            </td>
                             <td>
                                 <form action="{{ route('admins.userDestroy', $u->id) }}" method="post">
                                     <a href="{{ route('admins.userProfile', $u->id) }}" class="btn btn-warning">
