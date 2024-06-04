@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Admin extends User
 {
     use HasFactory;
+
+    protected $table = 'users';
+
+    protected $attributes = [
+        'role_id' => 1,
+    ];
 }

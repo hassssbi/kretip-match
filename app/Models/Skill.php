@@ -15,4 +15,14 @@ class Skill extends Model
         'name',
         'description',
     ];
+
+    public function events()
+    {
+        return $this->belongsToMany(Event::class, 'events_skills');
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'users_skills', 'skill_id', 'user_id');
+    }
 }

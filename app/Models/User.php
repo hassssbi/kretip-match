@@ -55,23 +55,42 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+        /**
+     * Scope a query to only include admins.
+     */
+    public function scopeAdmins($query)
+    {
+        return $query->where('role_id', 1);
+    }
+
+    /**
+     * Scope a query to only include moderators.
+     */
+    public function scopeModerators($query)
+    {
+        return $query->where('role_id', 2);
+    }
+
+    /**
+     * Scope a query to only include volunteers.
+     */
+    public function scopeVolunteers($query)
+    {
+        return $query->where('role_id', 3);
+    }
+
     public function role()
     {
         return $this->belongsTo(Role::class, 'role_id', 'id');
     }
 
-    public function isAdmin()
+    public function assignedEvents()
     {
-        return Auth::user()->role_id == 1;
+        return $this->belongsToMany(Event::class, 'events_assigned', 'user_id', 'event_id');
     }
 
-    public function isModerator()
+    public function skills()
     {
-        return Auth::user()->role_id == 2;
-    }
-
-    public function isVolunteer()
-    {
-        return Auth::user()->role_id == 3;
+        return $this->belongsToMany(Skill::class, 'users_skills', 'user_id', 'skill_id');
     }
 }

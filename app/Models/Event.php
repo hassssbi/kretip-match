@@ -29,4 +29,14 @@ class Event extends Model
     {
         return $this->hasMany(Application::class);
     }
+
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class, 'events_skills');
+    }
+
+    public function assignedUsers()
+    {
+        return $this->belongsToMany(User::class, 'events_assigned', 'event_id', 'user_id');
+    }
 }

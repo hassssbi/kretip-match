@@ -5,13 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Moderator extends User
+class UserSkill extends Model
 {
     use HasFactory;
 
-    protected $table = 'users';
+    protected $table = 'users_skills';
 
-    protected $attributes = [
-        'role_id' => 2,
+    protected $fillable = [
+        'user_id',
+        'skill_id'
     ];
 }
