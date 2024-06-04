@@ -38,7 +38,7 @@
                                             <button type="submit" class="btn btn-danger btn-delete">Delete</button>
                                         @endif
                                     </form>
-                                @elseif (Request::routeIs('moderators.completedEvents'))
+                                @elseif (Request::routeIs('moderators.viewCompletedEvent'))
                                     <a href="{{ route('moderators.completedEvents') }}" class="btn btn-default">Back</a>
                                 @else
                                     <a href="{{ route('volunteers.events') }}" class="btn btn-default">Back</a>
