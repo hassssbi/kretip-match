@@ -4,7 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ config('app.name', 'Kretip Match') }} | {{ $breadcrumbs[1]['name'] }}</title>
-  <link rel="icon" href="{{ asset('admin/dist/icon/km-logo.ico')}}">
+  {{-- <link rel="icon" href="{{ asset('admin/dist/icon/km-logo.ico')}}"> --}}
+  {{-- <link rel="icon" href="{{ asset('admin/dist/img/km-k.png')}}"> --}}
+  <link rel="icon" href="{{ asset('admin/dist/img/km-logo-initials.png')}}">
 
   <!-- Google Font: Source Sans Pro -->
   {{-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"> --}}
@@ -95,7 +97,9 @@
     <!-- Brand Logo -->
 
     <a href="{{ auth()->check() ? route(auth()->user()->role_id == 1 ? 'admins.index' : (auth()->user()->role_id == 2 ? 'moderators.index' : 'volunteers.index')) : '#' }}" class="brand-link">
-        <img src="{{ asset('admin/dist/icon/km-logo.ico')}}" alt="AdminLTE Logo" class="brand-image" style="opacity: .8">
+        {{-- <img src="{{ asset('admin/dist/icon/km-logo.ico')}}" alt="AdminLTE Logo" class="brand-image" style="opacity: .8"> --}}
+        {{-- <img src="{{ asset('admin/dist/img/km-k.png')}}" alt="AdminLTE Logo" class="brand-image" style="opacity: .8"> --}}
+        <img src="{{ asset('admin/dist/img/km-logo-initials.png')}}" alt="AdminLTE Logo" class="brand-image" style="opacity: .8">
         <span class="brand-text font-weight-light">{{ config('app.name', 'Laravel') }}</span>
     </a>
 

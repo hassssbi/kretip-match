@@ -8,7 +8,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Kretip Match') }}</title>
-    <link rel="icon" href="{{ asset('admin/dist/icon/km-logo.ico')}}">
+    {{-- <link rel="icon" href="{{ asset('admin/dist/img/km-k.png')}}"> --}}
+    <link rel="icon" href="{{ asset('admin/dist/img/km-logo-initials.png')}}">
+    {{-- <link rel="icon" href="{{ asset('admin/dist/icon/km-logo.ico')}}"> --}}
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">

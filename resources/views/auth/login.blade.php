@@ -6,7 +6,7 @@
         <div class="col-md-6">
             <h1 class="text-center">Welcome to Kretip Match</h1>
             <div class="img d-flex justify-content-center">
-                <img src="{{ asset('admin/dist/img/kretip-malaya-logo-wide.png')}}" alt="" style="width: 60%">
+                <img src="{{ asset('admin/dist/img/kretip-match-logo-v1-wide.png')}}" alt="" class="">
             </div>
         </div>
         <div class="col-md-4">
