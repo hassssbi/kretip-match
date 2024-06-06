@@ -22,7 +22,7 @@
                             <td>{{ $u->icno }}</td>
                             <td>{{ $u->phone_number }}</td>
                             <td>
-                                <div class="badge {{ $u->role->id == 1 ? 'badge-warning' : ($u->role->id == 2 ? 'badge-success' : 'badge-info') }} ">{{ $u->role->name }}</div>
+                                <div class="badge text-md {{ $u->role->id == 1 ? 'badge-warning' : ($u->role->id == 2 ? 'badge-success' : 'badge-info') }} ">{{ $u->role->name }}</div>
                             </td>
                             <td>
                                 <form action="{{ route('admins.userDestroy', $u->id) }}" method="post">

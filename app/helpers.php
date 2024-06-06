@@ -19,15 +19,15 @@ if (! function_exists('getRoleBasedRoute')) {
             case 'index':
                 return route("{$baseRoute}.index");
             case 'profile':
-                return route("{$baseRoute}.profile", $userId);
+                return route("{$baseRoute}.profile");
             case 'changePassword':
-                return route("{$baseRoute}.changePassword", $userId);
+                return route("{$baseRoute}.changePassword");
             case 'savePassword':
-                return route("{$baseRoute}.savePassword", $userId);
+                return route("{$baseRoute}.savePassword");
             case 'editProfile':
-                return route("{$baseRoute}.editProfile", $userId);
+                return route("{$baseRoute}.editProfile");
             case 'updateProfile':
-                return route("{$baseRoute}.updateProfile", $userId);
+                return route("{$baseRoute}.updateProfile");
             case 'events':
                 return route("{$baseRoute}.events", $userId);
             default:

@@ -10,8 +10,9 @@ use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
-    public function index(User $user)
+    public function index()
     {
+        $user = auth()->user();
         $breadcrumbs = [
             ['name' => 'Home', 'url' => getRoleBasedRoute($user->role_id, 'index', $user->id)],
             ['name' => 'Profile', 'url' => getRoleBasedRoute($user->role_id, 'profile', $user->id)],
@@ -19,8 +20,9 @@ class ProfileController extends Controller
         return view('profiles.index', compact('user', 'breadcrumbs'));
     }
 
-    public function edit(User $user)
+    public function edit()
     {
+        $user = auth()->user();
         $breadcrumbs = [
             ['name' => 'Home', 'url' => getRoleBasedRoute($user->role_id, 'index', $user->id)],
             ['name' => 'Profile', 'url' => getRoleBasedRoute($user->role_id, 'profile', $user->id)],
@@ -29,8 +31,9 @@ class ProfileController extends Controller
         return view('profiles.edit', compact('user', 'breadcrumbs'));
     }
 
-    public function update(Request $request, User $user)
+    public function update(Request $request)
     {
+        $user = auth()->user();
         // dump($request);
         // die();
         $validatedData = $request->validate([
@@ -72,8 +75,9 @@ class ProfileController extends Controller
         return redirect($redirectUrl)->with('success', 'Profile updated successfully!');
     }
 
-    public function changePassword(User $user)
+    public function changePassword()
     {
+        $user = auth()->user();
         $breadcrumbs = [
             ['name' => 'Home', 'url' => getRoleBasedRoute($user->role_id, 'index', $user->id)],
             ['name' => 'Profile', 'url' => getRoleBasedRoute($user->role_id, 'profile', $user->id)],
@@ -82,8 +86,9 @@ class ProfileController extends Controller
         return view('profiles.changePassword', compact('breadcrumbs', 'user'));
     }
 
-    public function savePassword(Request $request, User $user)
+    public function savePassword(Request $request)
     {
+        $user = auth()->user();
         $validatedData = $request->validate([
             'password' => 'nullable|string|min:8|confirmed',
         ]);

@@ -124,7 +124,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('admins.profile', Auth::user()->id) }}" class="nav-link @if(Request::routeIs('admins.profile') || Request::routeIs('admins.editProfile') || Request::routeIs('admins.changePassword')) active @endif">
+                <a href="{{ route('admins.profile') }}" class="nav-link @if(Request::routeIs('admins.profile') || Request::routeIs('admins.editProfile') || Request::routeIs('admins.changePassword')) active @endif">
                 <i class="fas fa-user-secret nav-icon"></i>
                 <p>Profile</p>
                 </a>
@@ -148,7 +148,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('moderators.profile', Auth::user()->id) }}" class="nav-link @if(Request::routeIs('moderators.profile') || Request::routeIs('moderators.editProfile') || Request::routeIs('moderators.changePassword')) active @endif">
+                <a href="{{ route('moderators.profile') }}" class="nav-link @if(Request::routeIs('moderators.profile') || Request::routeIs('moderators.editProfile') || Request::routeIs('moderators.changePassword')) active @endif">
                 <i class="fa fa-user-tie nav-icon"></i>
                 <p>Profile</p>
                 </a>
@@ -179,7 +179,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('volunteers.profile', Auth::user()->id) }}" class="nav-link @if(Request::routeIs('volunteers.profile') || Request::routeIs('volunteers.editProfile') || Request::routeIs('volunteers.changePassword')) active @endif">
+                <a href="{{ route('volunteers.profile') }}" class="nav-link @if(Request::routeIs('volunteers.profile') || Request::routeIs('volunteers.editProfile') || Request::routeIs('volunteers.changePassword')) active @endif">
                 <i class="fa fa-user nav-icon"></i>
                 <p>Profile</p>
                 </a>
@@ -193,14 +193,14 @@
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('volunteers.status', Auth::user()->id) }}" class="nav-link @if(Request::routeIs('volunteers.status') || Request::routeIs('volunteers.statusDetails')) active @endif">
+                <a href="{{ route('volunteers.status') }}" class="nav-link @if(Request::routeIs('volunteers.status') || Request::routeIs('volunteers.statusDetails')) active @endif">
                 <i class="fas fa-tasks nav-icon"></i>
                 <p>Status</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('volunteers.assignedEvents', Auth::user()->id) }}" class="nav-link @if(Request::routeIs('volunteers.assignedEvents')) active @endif">
+                <a href="{{ route('volunteers.assignedEvents') }}" class="nav-link @if(Request::routeIs('volunteers.assignedEvents') || Request::routeIs('volunteers.assignedEventsDetails')) active @endif">
                 <i class="fas fa-calendar-check nav-icon"></i>
                 <p>Assigned Events</p>
                 </a>

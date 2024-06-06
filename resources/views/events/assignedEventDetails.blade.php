@@ -28,7 +28,7 @@
                         </dl>
 
                         <div class="btn-row text-end">
-                            <a href="{{ route('volunteers.events') }}" class="btn btn-default">Back</a>
+                            <a href="{{ route('volunteers.assignedEvents') }}" class="btn btn-default">Back</a>
                         </div>
                     </div>
                 </div>
@@ -60,7 +60,7 @@
                     </ul>
                 </p>
                 <div class="btn-row text-end">
-                    <button class="btn btn-primary btn-apply" {{ $hasPendingOrAcceptedApplication || $isAssignedToEvent || $isEventFull ? 'disabled' : '' }}>Apply</button>
+                    <button class="btn btn-warning">Submit Feedback</button>
                 </div>
 
                 <form id="applyForm" action="{{ route('volunteers.submitApplication', $event->id) }}" method="POST" style="display: none;">
@@ -76,44 +76,4 @@
     </div>
 </div>
 
-@push('scripts')
-    <script>
-        document.querySelectorAll('.btn-delete').forEach(button => {
-            button.addEventListener('click', function (event) {
-                event.preventDefault();
-                const form = this.closest('form');
-
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        form.submit();
-                    }
-                });
-            });
-        });
-
-        document.querySelector('.btn-apply').addEventListener('click', function () {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "Do you want to apply for this event?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, apply!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById('applyForm').submit();
-                }
-            });
-        });
-    </script>
-@endpush
 @endsection

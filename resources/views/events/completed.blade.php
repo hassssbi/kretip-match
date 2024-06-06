@@ -23,7 +23,7 @@
                             <td>{{ $e->title }}</td>
                             <td>{{ $e->start_date }} - {{ $e->end_date }}</td>
                             <td>{{ $e->location }}</td>
-                            <td>{{ $e->num_of_needed_vol }}</td>
+                            <td>{{ $e->assignedUsers()->count() }} / {{ $e->num_of_needed_vol }}</td>
                             <td>{{ $e->status }}</td>
                             <td>
                                 <a href="{{ route('moderators.viewCompletedEvent', $e->id) }}" class="btn btn-warning">

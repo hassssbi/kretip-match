@@ -40,8 +40,9 @@ class EventController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, User $user)
+    public function store(Request $request)
     {
+        $user = auth()->user();
         // Validate the request data
         $validatedData = $request->validate([
             'title'             => ['required', 'string', 'max:255'],
@@ -213,22 +214,68 @@ class EventController extends Controller
             ['name' => 'Events Details', 'url' => route('volunteers.eventDetails', $event->id)],
         ];
 
-        return view('events.eventDetails', compact('breadcrumbs', 'event'));
+        $event = Event::with(['applications', 'assignedUsers'])->findOrFail($event->id);
+        $user = auth()->user();
+
+        // Check if the user has an existing application with status 'Pending' or 'Accepted'
+        $hasPendingOrAcceptedApplication = $event->applications()
+            ->where('user_id', $user->id)
+            ->whereIn('status', ['Pending', 'Accepted'])
+            ->exists();
+
+        // Check if the user is already assigned to the event
+        $isAssignedToEvent = $event->assignedUsers()->where('user_id', $user->id)->exists();
+
+        // Check if the number of assigned users has met the num_of_needed_vol attribute
+        $isEventFull = $event->assignedUsers()->count() >= $event->num_of_needed_vol;
+
+        return view('events.eventDetails', compact(
+            'breadcrumbs',
+            'event',
+            'hasPendingOrAcceptedApplication',
+            'isAssignedToEvent',
+            'isEventFull'
+        ));
     }
 
-    public function assignedEvents(User $user)
+
+    public function assignedEvents(Request $request)
     {
+        $user = auth()->user();
         $breadcrumbs = [
             ['name' => 'Home', 'url' => route('volunteers.index')],
-            ['name' => 'Assigned Events', 'url' => route('volunteers.assignedEvents', $user->id)],
+            ['name' => 'Assigned Events', 'url' => route('volunteers.assignedEvents')],
         ];
 
-        // Query to select events that the volunteer has been assigned to
-        $assignedEvents = EventAssigned::with('event')
-                            ->where('user_id', $user->id)
-                            ->get()
-                            ->pluck('event');
+        $search = $request->query('search');
 
-        return view('events.assignedEvents', compact('breadcrumbs', 'assignedEvents'));
+        // Query to select events that the volunteer has been assigned to, with search functionality
+        $assignedEventsQuery = EventAssigned::with('event')
+            ->where('user_id', $user->id);
+
+        if ($search) {
+            $assignedEventsQuery->whereHas('event', function ($query) use ($search) {
+                $query->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('description', 'like', '%' . $search . '%')
+                    ->orWhere('location', 'like', '%' . $search . '%');
+            });
+        }
+
+        $assignedEvents = $assignedEventsQuery->get();
+
+        return view('events.assignedEvents', compact('breadcrumbs', 'assignedEvents', 'search'));
+    }
+
+
+    public function assignedEventDetails(Event $event)
+    {
+        $user = auth()->user();
+        $breadcrumbs = [
+            ['name' => 'Home', 'url' => route('volunteers.index')],
+            ['name' => 'Assigned Events', 'url' => route('volunteers.assignedEvents')],
+            ['name' => 'View Assigned Events', 'url' => route('volunteers.assignedEventsDetails', $event->id)],
+        ];
+
+        return view('events.assignedEventDetails', compact('breadcrumbs', 'event'));
     }
 }

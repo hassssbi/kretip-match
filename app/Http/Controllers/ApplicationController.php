@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Application;
 use App\Models\Event;
+use App\Models\EventAssigned;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -21,15 +22,16 @@ class ApplicationController extends Controller
             ['name' => 'Applications', 'url' => route('moderators.applications', $event->id)],
         ];
 
-        $applications = Application::where('event_id', $event->id)->get();
+        $applications = Application::with(['event', 'user'])->where('event_id', $event->id)->get();
         return view('applications.index', compact('breadcrumbs', 'applications', 'event'));
     }
 
-    public function statusList(User $user, $status = null)
+    public function statusList($status = null)
     {
+        $user = auth()->user();
         $breadcrumbs = [
-            ['name' => 'Home', 'url' => route('moderators.index')],
-            ['name' => 'Applications Status', 'url' => route('volunteers.status', $user->id)],
+            ['name' => 'Home', 'url' => route('volunteers.index')],
+            ['name' => 'Applications Status', 'url' => route('volunteers.status')],
         ];
 
         $query = Application::where('user_id', $user->id);
@@ -43,9 +45,16 @@ class ApplicationController extends Controller
         return view('applications.statusList', compact('breadcrumbs', 'applications', 'status'));
     }
 
-    public function statusDetails()
+    public function statusDetails(Application $application)
     {
-        //
+        $user = auth()->user();
+        $breadcrumbs = [
+            ['name' => 'Home', 'url' => route('volunteers.index')],
+            ['name' => 'Applications Status', 'url' => route('volunteers.status')],
+            ['name' => 'Applications Details', 'url' => route('volunteers.statusDetails', $application->id)],
+        ];
+
+        return view('applications.statusDetails', compact('breadcrumbs', 'application'));
     }
 
     /**
@@ -61,7 +70,22 @@ class ApplicationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'event_id' => 'required|exists:events,id',
+            'user_id'  => 'required|exists:users,id',
+            'message'  => 'required',
+            'mod_id'   => 'required|exists:users,id',
+        ]);
+
+        Application::create([
+            'event_id' => $request->event_id,
+            'user_id' => $request->user_id,
+            'status' => 'Pending', // default status
+            'message' => $request->message, // default message
+            'mod_id' => $request->mod_id,
+        ]);
+
+        return redirect()->back()->with('success', 'You have successfully applied for the event!');
     }
 
     /**
@@ -95,4 +119,30 @@ class ApplicationController extends Controller
     {
         //
     }
+
+    public function accept($id)
+    {
+        $application = Application::findOrFail($id);
+        $application->status = 'Accepted';
+        $application->save();
+
+        // Create an entry in EventAssigned
+        EventAssigned::create([
+            'user_id' => $application->user_id,
+            'event_id' => $application->event_id,
+        ]);
+
+        return redirect()->back()->with('success', 'Application accepted successfully.');
+    }
+
+    public function reject($id)
+    {
+        $application = Application::findOrFail($id);
+        $application->status = 'Rejected';
+        $application->save();
+
+        return redirect()->back()->with('success', 'Application rejected successfully.');
+    }
+
+
 }
