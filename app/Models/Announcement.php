@@ -17,4 +17,10 @@ class Announcement extends Model
         'user_id',
         'event_id',
     ];
+
+    // Define the relationship with the Event model
+    public function event()
+    {
+        return $this->belongsTo(Event::class);
+    }
 }

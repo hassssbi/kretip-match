@@ -9,6 +9,7 @@
                     <th>Name</th>
                     <th>MyKAD No.</th>
                     <th>Phone Number</th>
+                    <th>Skills</th>
                     <th>Role</th>
                     <th>Action</th>
                 </tr>
@@ -21,6 +22,7 @@
                             <td>{{ $u->name }}</td>
                             <td>{{ $u->icno }}</td>
                             <td>{{ $u->phone_number }}</td>
+                            <td>{{ $u->skills->implode('name', ', ') ?: 'None' }}</td>
                             <td>
                                 <div class="badge text-md {{ $u->role->id == 1 ? 'badge-warning' : ($u->role->id == 2 ? 'badge-success' : 'badge-info') }} ">{{ $u->role->name }}</div>
                             </td>

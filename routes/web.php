@@ -51,6 +51,7 @@ Route::prefix('volunteer')->name('volunteers.')->group(function () {
     Route::get('/status', [ApplicationController::class, 'statusList'])->name('status');
     Route::get('/status/{status?}', [ApplicationController::class, 'statusList'])->name('status');
     Route::get('/status/view/{application}', [ApplicationController::class, 'statusDetails'])->name('statusDetails');
+    Route::post('/status/view/{application}', [ApplicationController::class, 'cancelApplication'])->name('cancelApplication');
     Route::get('/assigned-events', [EventController::class, 'assignedEvents'])->name('assignedEvents');
     Route::get('/assigned-events/{event}', [EventController::class, 'assignedEventDetails'])->name('assignedEventsDetails');
     Route::get('/assigned-events/{event}/feedback', [FeedbackController::class, 'submitFeedback'])->name('submitFeedback');

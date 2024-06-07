@@ -42,7 +42,7 @@ class ApplicationController extends Controller
             $query->where('status', $status);
         }
 
-        $applications = $query->with('event')->get();
+        $applications = $query->latest()->with('event')->get();
 
         return view('applications.statusList', compact('breadcrumbs', 'applications', 'status'));
     }
@@ -145,6 +145,24 @@ class ApplicationController extends Controller
 
         return redirect()->back()->with('success', 'Application rejected successfully.');
     }
+
+    public function cancelApplication(Application $application)
+    {
+        $application = Application::find($application->id);
+
+        if ($application->status === 'Accepted') {
+            // Remove from EventAssigned model
+            EventAssigned::where('event_id', $application->event_id)
+                        ->where('user_id', $application->user_id)
+                        ->delete();
+        }
+
+        $application->status = 'Canceled';
+        $application->save();
+
+        return redirect()->route('volunteers.status')->with('success', 'Your application has been canceled.');
+    }
+
 
 
 }

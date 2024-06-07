@@ -7,6 +7,7 @@
             <a href="{{ route('volunteers.status', ['status' => '']) }}" class="btn btn-secondary {{ is_null($status) ? 'active' : '' }}">All</a>
             <a href="{{ route('volunteers.status', ['status' => 'accepted']) }}" class="btn btn-success {{ $status === 'Accepted' ? 'active' : '' }}">Accepted</a>
             <a href="{{ route('volunteers.status', ['status' => 'rejected']) }}" class="btn btn-danger {{ $status === 'Rejected' ? 'active' : '' }}">Rejected</a>
+            <a href="{{ route('volunteers.status', ['status' => 'canceled']) }}" class="btn btn-danger {{ $status === 'Canceled' ? 'active' : '' }}">Canceled</a>
             <a href="{{ route('volunteers.status', ['status' => 'pending']) }}" class="btn btn-warning {{ $status === 'Pending' ? 'active' : '' }}">Pending</a>
         </div>
     </div>
@@ -46,7 +47,7 @@
 
                                     <dt class="col-4">Status</dt>
                                     <dd class="col-8">
-                                        <div class="badge text-md {{ $a->status == 'Accepted' ? 'badge-success' : ($a->status == 'Rejected' ? 'badge-danger' : 'badge-warning') }}">{{ Str::upper($a->status) }}</div>
+                                        <div class="badge text-md {{ $a->status == 'Accepted' ? 'badge-success' : (($a->status == 'Rejected' || $a->status == 'Canceled') ? 'badge-danger' : 'badge-warning') }}">{{ Str::upper($a->status) }}</div>
                                     </dd>
                                 </dl>
                                 <div class="btn-row text-end">

@@ -117,6 +117,14 @@ class EventController extends Controller
             $event->skills()->attach($skills);
         }
 
+        // Create an announcement for the new event
+        Announcement::create([
+            'title' => 'Event Created',
+            'description' => "{$event->title} has been created by {$user->name}",
+            'user_id' => $user->id,
+            'event_id' => $event->id,
+        ]);
+
         // Redirect to the events page with a success message
         return redirect()->route('moderators.events')->with('success', 'Event created successfully!');
     }
@@ -235,6 +243,14 @@ class EventController extends Controller
 
             $event->skills()->attach($skills);
         }
+
+        // Create an announcement for the updated event
+        Announcement::create([
+            'title' => 'Event Updated',
+            'description' => "{$event->title} has been updated",
+            'user_id' => $event->user_id,
+            'event_id' => $event->id,
+        ]);
 
         // Redirect to the events page with a success message
         return redirect()->route('moderators.events')->with('success', 'Event updated successfully!');

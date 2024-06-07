@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Volunteer;
+use App\Models\Announcement;
+use App\Models\Event;
 use Illuminate\Http\Request;
 
 class VolunteerController extends Controller
@@ -16,7 +18,11 @@ class VolunteerController extends Controller
             ['name' => 'Home', 'url' => route('volunteers.index')],
             ['name' => 'Dashboard', 'url' => route('volunteers.index')]
         ];
-        return view('volunteers.index', compact('breadcrumbs'));
+
+        $announcements = Announcement::latest()->get();
+        $events = Event::latest()->get();
+
+        return view('volunteers.index', compact('breadcrumbs', 'announcements', 'events'));
     }
 
     /**

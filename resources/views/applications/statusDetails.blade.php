@@ -65,20 +65,35 @@
                     </ul>
                 </p>
                 <div class="btn-row text-end">
-                    <button class="btn btn-danger btn-cancel">Cancel</button>
+                    <button class="btn btn-danger btn-cancel" {{ ($application->status === 'Rejected' || $application->status === 'Canceled') ? 'disabled' : '' }} >Cancel</button>
                 </div>
 
-                <form id="applyForm" action="{{ route('volunteers.submitApplication', $application->event->id) }}" method="POST" style="display: none;">
+                <form id="cancelForm" action="{{ route('volunteers.cancelApplication', $application->id) }}" method="POST" style="display: none;">
                     @csrf
-                    @method('POST')
-                    <input type="hidden" id="event_id" name="event_id" value="{{ $application->event->id }}">
-                    <input type="hidden" id="user_id" name="user_id" value="{{ Auth::user()->id }}">
-                    <input type="hidden" id="message" name="message" value="{{ Auth::user()->name }} has applied for Event {{ $application->event->title }}">
-                    <input type="hidden" id="mod_id" name="mod_id" value="{{ $application->event->user_id }}">
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelector('.btn-cancel').addEventListener('click', function () {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Do you want to cancel your application?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, cancel it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('cancelForm').submit();
+                }
+            });
+        });
+    });
+</script>
 
 @endsection

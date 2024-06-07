@@ -45,7 +45,7 @@
     </div>
 </div>
 
-<div class="row">
+{{-- <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-body">
@@ -90,7 +90,55 @@
             </div>
         </div>
     </div>
+</div> --}}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <table id="example1" class="table table-borderless table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Volunteer</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if ($applications->count() > 0)
+                            @foreach ($applications as $a)
+                                <tr data-id="{{ $a->id }}" data-address="{{ $a->user->address }}" data-skills="{{ $a->user->skills->implode('name', ', ') ?: 'No skills.' }}" data-icno="{{ $a->user->icno }}" data-name="{{ $a->user->name }}" data-status="{{ $a->status }}" data-email="{{ $a->user->email }}" data-phone="{{ $a->user->phone_number }}">
+                                    <td>{{ $a->id }}</td>
+                                    <td>{{ $a->user->name }}</td>
+                                    <td>
+                                        <div class="badge text-md {{ ($a->status === 'Accepted' ? 'badge-success' : ($a->status === 'Rejected' || $a->status === 'Canceled' ? 'badge-danger' : 'badge-warning')) }}">{{ Str::upper($a->status)  }}</div>
+                                    </td>
+                                    <td>
+                                        <button class="btn-accept btn btn-success" {{ ($a->status !== 'Accepted' && $a->status !== 'Rejected' && $a->status !== 'Canceled') ? '' : 'disabled' }} >Accept</button>
+                                        <button class="btn-reject btn btn-danger" {{ ($a->status !== 'Accepted' && $a->status !== 'Rejected' && $a->status !== 'Canceled') ? '' : 'disabled' }}>Reject</button>
+                                        <!-- Invisible forms for accepting and rejecting applications -->
+                                        <form method="POST" action="{{ route('moderators.applicationsAccept', $a->id) }}" class="d-none form-accept">
+                                            @csrf
+                                        </form>
+                                        <form method="POST" action="{{ route('moderators.applicationsReject', $a->id) }}" class="d-none form-reject">
+                                            @csrf
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr>
+                                <td colspan="4" class="text-center">No data available</td>
+                            </tr>
+                        @endif
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -133,7 +181,46 @@
                 });
             });
         });
+
+        document.querySelectorAll('table#example1 tbody tr').forEach(row => {
+            row.addEventListener('click', function (e) {
+                // Avoid triggering the row click event when clicking on buttons
+                if (e.target.tagName === 'BUTTON') return;
+
+                let id = this.getAttribute('data-id');
+                let name = this.getAttribute('data-name');
+                let status = this.getAttribute('data-status');
+                let email = this.getAttribute('data-email');
+                let phone = this.getAttribute('data-phone');
+                let icno = this.getAttribute('data-icno');
+                let skills = this.getAttribute('data-skills');
+                let address = this.getAttribute('data-address');
+
+                Swal.fire({
+                    title: name,
+                    html: `
+                        <dl class="row">
+                            <dt class="col-4 text-right">MyKAD No.</dt>
+                            <dd class="col-6 text-left">${icno}</dd>
+                            <dt class="col-4 text-right">Address</dt>
+                            <dd class="col-6 text-left">${address}</dd>
+                            <dt class="col-4 text-right">Phone</dt>
+                            <dd class="col-6 text-left">${phone}</dd>
+                            <dt class="col-4 text-right">Email</dt>
+                            <dd class="col-6 text-left">${email}</dd>
+                            <dt class="col-4 text-right">Skills</dt>
+                            <dd class="col-6 text-left">${skills}</dd>
+                        </dl>
+                    `,
+
+                    icon: 'info',
+                    confirmButtonText: 'Close'
+                });
+            });
+        });
     });
 </script>
+
+
 
 @endsection

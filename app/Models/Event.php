@@ -30,6 +30,11 @@ class Event extends Model
         return $this->hasMany(Application::class);
     }
 
+    public function announcements()
+    {
+        return $this->hasMany(Announcement::class);
+    }
+
     public function skills()
     {
         return $this->belongsToMany(Skill::class, 'events_skills');
