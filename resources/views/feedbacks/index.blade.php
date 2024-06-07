@@ -2,8 +2,12 @@
 @section('content')
 
 <style>
-    i.fa.fa-star {
+    i.fa.fa-star, i.fa.fa-star-half.halfStar {
         color: #ffc107;
+    }
+
+    i.fa.fa-star.emptyStar {
+        color: #c0c0c0
     }
     .progress {
         height: 20px;
@@ -58,6 +62,7 @@
 </div>
 
 <div class="row">
+<!-- Reviews Section -->
     <div class="col-4">
         <div class="card">
             <div class="card-body">
@@ -69,14 +74,30 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        @for ($i = 0; $i < $feedbacks->average('rating'); $i++)
+                        @php
+                            $averageRating = $feedbacks->average('rating');
+                            $fullStars = floor($averageRating);
+                            $halfStar = ($averageRating - $fullStars) >= 0.5 ? 1 : 0;
+                            $emptyStars = 5 - ($fullStars + $halfStar);
+                        @endphp
+
+                        @for ($i = 0; $i < $fullStars; $i++)
                             <i class="fa fa-star text-lg"></i>
                         @endfor
+
+                        @if ($halfStar)
+                            <i class="halfStar fa fa-star-half text-lg"></i>
+                        @endif
+
+                        {{-- @for ($i = 0; $i < $emptyStars; $i++)
+                            <i class="emptyStar fa fa-star text-lg"></i>
+                        @endfor --}}
                     </div>
                     <div class="description">
                         <p class="">({{ $feedbacks->count() }} Reviews)</p>
                     </div>
                 </div>
+
                 @php
                     $count5 = $feedbacks->where('rating', 5)->count();
                     $count4 = $feedbacks->where('rating', 4)->count();
@@ -85,71 +106,28 @@
                     $count1 = $feedbacks->where('rating', 1)->count();
                     $total = $feedbacks->count();
                 @endphp
-                <div class="row">
-                    <div class="col-1">
-                        <label for="5_star" class="input-label">5</label>
-                    </div>
-                    <div class="col-9">
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: {{ $total > 0 ? ($count5 / $total) * 100 : 0 }}%" aria-valuenow="{{ $count5 }}" aria-valuemin="0" aria-valuemax="{{ $total }}"></div>
+
+                <!-- Rating Distribution -->
+                @foreach ([5, 4, 3, 2, 1] as $rating)
+                    @php
+                        $countVar = 'count' . $rating;
+                        $count = $$countVar;
+                        $percentage = $total > 0 ? ($count / $total) * 100 : 0;
+                    @endphp
+                    <div class="row">
+                        <div class="col-1">
+                            <label class="input-label">{{ $rating }}</label>
+                        </div>
+                        <div class="col-9">
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: {{ $percentage }}%" aria-valuenow="{{ $count }}" aria-valuemin="0" aria-valuemax="{{ $total }}"></div>
+                            </div>
+                        </div>
+                        <div class="col-2 text-end">
+                            <p>{{ $count }}</p>
                         </div>
                     </div>
-                    <div class="col-2 text-end">
-                        <p>{{ $count5 }}</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-1">
-                        <label for="4_star" class="input-label">4</label>
-                    </div>
-                    <div class="col-9">
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: {{ $total > 0 ? ($count4 / $total) * 100 : 0 }}%" aria-valuenow="{{ $count4 }}" aria-valuemin="0" aria-valuemax="{{ $total }}"></div>
-                        </div>
-                    </div>
-                    <div class="col-2 text-end">
-                        <p>{{ $count4 }}</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-1">
-                        <label for="3_star" class="input-label">3</label>
-                    </div>
-                    <div class="col-9">
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: {{ $total > 0 ? ($count3 / $total) * 100 : 0 }}%" aria-valuenow="{{ $count3 }}" aria-valuemin="0" aria-valuemax="{{ $total }}"></div>
-                        </div>
-                    </div>
-                    <div class="col-2 text-end">
-                        <p>{{ $count3 }}</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-1">
-                        <label for="2_star" class="input-label">2</label>
-                    </div>
-                    <div class="col-9">
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: {{ $total > 0 ? ($count2 / $total) * 100 : 0 }}%" aria-valuenow="{{ $count2 }}" aria-valuemin="0" aria-valuemax="{{ $total }}"></div>
-                        </div>
-                    </div>
-                    <div class="col-2 text-end">
-                        <p>{{ $count2 }}</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-1">
-                        <label for="1_star" class="input-label">1</label>
-                    </div>
-                    <div class="col-9">
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: {{ $total > 0 ? ($count1 / $total) * 100 : 0 }}%" aria-valuenow="{{ $count1 }}" aria-valuemin="0" aria-valuemax="{{ $total }}"></div>
-                        </div>
-                    </div>
-                    <div class="col-2 text-end">
-                        <p>{{ $count1 }}</p>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>
