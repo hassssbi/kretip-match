@@ -114,19 +114,24 @@
                             <textarea name="about" id="about" cols="30" rows="10" class="form-control" placeholder="Tell us a little about yourself..." style="resize: none"></textarea>
                         </div>
 
-                        <div class="form-group">
-                            <label for="skills" class="input-label">Skills</label>
-                            <div id="skills-container">
-                                <div class="input-group mb-3">
-                                    <input type="text" name="skills[]" class="form-control" placeholder="Enter a skill">
-                                    <div class="input-group-append">
-                                        <button type="button" class="btn btn-success add-skill-btn">
-                                            <i class="fa fa-plus"></i>
-                                        </button>
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="skills" class="input-label">Skills</label>
+                                    <div id="skills-container">
+                                        <div class="input-group mb-3">
+                                            <input type="text" name="skills[]" class="form-control" placeholder="Enter a skill">
+                                            <div class="input-group-append">
+                                                <button type="button" class="btn btn-success add-skill-btn">
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
 
                         <div class="form-group">
                             <label for="image" class="input-label">Profile Image</label>

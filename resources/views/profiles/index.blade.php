@@ -49,7 +49,7 @@
                 </div>
                 <div class="form-group">
                     <label for="" class="input-label">Skills</label>
-                    <textarea readonly name="" id="" class="form-control-plaintext" style="resize: none">{{ $skills ?: 'No skills.' }}</textarea>
+                    <textarea readonly name="" id="" class="form-control-plaintext" style="resize: none">{{ $user->skills->implode('name', ', ') ?: 'No skills.' }}</textarea>
                 </div>
             </div>
             <div class="col-6">
