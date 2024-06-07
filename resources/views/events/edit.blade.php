@@ -109,40 +109,45 @@
                         @enderror
                     </div>
 
-                    <div class="form-group">
-                        <label for="skills" class="input-label">Skills</label>
-                        <div id="skills-container">
-                            @if ($eventSkills)
-                                <div class="input-group mb-3">
-                                    <input type="text" name="skills[]" class="form-control" placeholder="Enter a skill">
-                                    <div class="input-group-append">
-                                        <button type="button" class="btn btn-success add-skill-btn">
-                                            <i class="fa fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                @foreach($eventSkills as $skill)
-                                    <div class="input-group mb-3">
-                                        <input type="text" name="skills[]" class="form-control" value="{{ $skill }}" placeholder="Enter a skill">
-                                        <div class="input-group-append">
-                                            <button type="button" class="btn btn-danger remove-skill-btn">
-                                                <i class="fa fa-minus"></i>
-                                            </button>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="skills" class="input-label">Skills</label>
+                                <div id="skills-container">
+                                    @if ($eventSkills)
+                                        <div class="input-group mb-3">
+                                            <input type="text" name="skills[]" class="form-control" placeholder="Enter a skill">
+                                            <div class="input-group-append">
+                                                <button type="button" class="btn btn-success add-skill-btn">
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                            </div>
                                         </div>
-                                    </div>
-                                @endforeach
-                            @else
-                                <div class="input-group mb-3">
-                                    <input type="text" name="skills[]" class="form-control" placeholder="Enter a skill">
-                                    <div class="input-group-append">
-                                        <button type="button" class="btn btn-success add-skill-btn">
-                                            <i class="fa fa-plus"></i>
-                                        </button>
-                                    </div>
+                                        @foreach($eventSkills as $skill)
+                                            <div class="input-group mb-3">
+                                                <input type="text" name="skills[]" class="form-control" value="{{ $skill }}" placeholder="Enter a skill">
+                                                <div class="input-group-append">
+                                                    <button type="button" class="btn btn-danger remove-skill-btn">
+                                                        <i class="fa fa-minus"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    @else
+                                        <div class="input-group mb-3">
+                                            <input type="text" name="skills[]" class="form-control" placeholder="Enter a skill">
+                                            <div class="input-group-append">
+                                                <button type="button" class="btn btn-success add-skill-btn">
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    @endif
                                 </div>
-                            @endif
+                            </div>
                         </div>
                     </div>
+
 
                     <div class="form-group">
                         <label for="poster" class="input-label">Poster</label>
