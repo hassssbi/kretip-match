@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Skill;
+use App\Models\UserSkill;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -71,7 +73,7 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(array $data)
+    /* protected function create(array $data)
     {
         $userData = [
             'name'         => $data['name'],
@@ -94,8 +96,11 @@ class RegisterController extends Controller
         }
 
         return User::create($userData);
+    } */
 
-        /* return User::create([
+    protected function create(array $data)
+    {
+        $userData = [
             'name'         => $data['name'],
             'email'        => $data['email'],
             'password'     => Hash::make($data['password']),
@@ -108,6 +113,25 @@ class RegisterController extends Controller
             'postcode'     => $data['postcode'],
             'about'        => $data['about'],
             'role_id'      => 3,
-        ]); */
+        ];
+
+        if (isset($data['image'])) {
+            $path = $data['image']->store('profile_images', 'public');
+            $userData['image'] = $path;
+        }
+
+        $user = User::create($userData);
+
+        if (isset($data['skills'])) {
+            foreach ($data['skills'] as $skillName) {
+                $skill = Skill::firstOrCreate(['name' => $skillName, 'description' => $skillName]);
+                UserSkill::create([
+                    'user_id' => $user->id,
+                    'skill_id' => $skill->id,
+                ]);
+            }
+        }
+
+        return $user;
     }
 }

@@ -21,8 +21,10 @@ class FeedbackController extends Controller
             ['name' => 'Feedbacks', 'url' => route('moderators.feedbacks', $event->id)],
         ];
 
+        $eventSkills = $event->skills()->implode('name', ', ');
+
         $feedbacks = Feedback::with(['user', 'event'])->where('event_id', $event->id)->latest()->get();
-        return view('feedbacks.index', compact('breadcrumbs', 'event', 'feedbacks'));
+        return view('feedbacks.index', compact('breadcrumbs', 'event', 'eventSkills', 'feedbacks'));
     }
 
     public function submitFeedback(Event $event)

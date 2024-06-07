@@ -38,6 +38,11 @@
                                     <dt class="col-4">Volunteers Needed</dt>
                                     <dd class="col-8">{{ $a->event->assignedUsers()->count() }} / {{ $a->event->num_of_needed_vol }}</dd>
 
+                                    <dt class="col-4">Skills</dt>
+                                    <dd class="col-8">
+                                        {{ $a->event->skills->implode('name', ', ') ?: 'No specific skills required.' }}
+                                    </dd>
+
                                     <dt class="col-4">Event Status</dt>
                                     <dd class="col-8">
                                         <div class="badge text-md {{ $a->event->status == 'Completed' ? 'badge-success' : ($a->event->status == 'Pending' ? 'badge-warning' : 'badge-info') }}">{{ Str::upper($a->event->status) }}</div>

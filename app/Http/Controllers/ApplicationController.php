@@ -22,8 +22,10 @@ class ApplicationController extends Controller
             ['name' => 'Applications', 'url' => route('moderators.applications', $event->id)],
         ];
 
+        $eventSkills = $event->skills()->implode('name', ', ');
+
         $applications = Application::with(['event', 'user'])->where('event_id', $event->id)->get();
-        return view('applications.index', compact('breadcrumbs', 'applications', 'event'));
+        return view('applications.index', compact('breadcrumbs', 'applications', 'event', 'eventSkills'));
     }
 
     public function statusList($status = null)

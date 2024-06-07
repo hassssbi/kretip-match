@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\EventSkill;
 use App\Models\EventAssigned;
 use App\Models\Announcement;
 use App\Models\User;
+use App\Models\Skill;
+use App\Models\UserSkill;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
@@ -41,7 +44,7 @@ class EventController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    /* public function store(Request $request)
     {
         $user = auth()->user();
         // Validate the request data
@@ -71,6 +74,51 @@ class EventController extends Controller
 
         // Redirect to the events page with a success message
         return redirect()->route('moderators.events')->with('success', 'Event created successfully!');
+    } */
+
+    public function store(Request $request)
+    {
+        $user = auth()->user();
+
+        // Validate the request data
+        $validatedData = $request->validate([
+            'title'             => ['required', 'string', 'max:255'],
+            'description'       => ['required', 'string'],
+            'num_of_needed_vol' => ['required', 'integer', 'min:1'],
+            'start_date'        => ['required', 'date'],
+            'end_date'          => ['required', 'date', 'after_or_equal:start_date'],
+            'start_time'        => ['required', 'date_format:H:i'],
+            'end_time'          => ['required', 'date_format:H:i', 'after:start_time'],
+            'location'          => ['required', 'string', 'max:255'],
+            'poster'            => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+            'skills'            => ['nullable', 'array'],
+            'skills.*'          => ['nullable', 'string'],
+        ]);
+
+        // Handle file upload for poster if it exists
+        if ($request->hasFile('poster')) {
+            $posterPath = $request->file('poster')->store('public/posters');
+            $validatedData['poster'] = "posters/".basename($posterPath);
+        }
+
+        $validatedData['status'] = 'Pending';
+        $validatedData['user_id'] = $user->id;
+
+        // Create a new event with the validated data
+        $event = Event::create($validatedData);
+
+        // Handle the skills input
+        if ($request->filled('skills')) {
+            $skills = collect($request->input('skills', []))->filter()->map(function ($skill) {
+                return Skill::firstOrCreate(['name' => $skill, 'description' => $skill])->id;
+            });
+
+            // Attach skills to the event
+            $event->skills()->attach($skills);
+        }
+
+        // Redirect to the events page with a success message
+        return redirect()->route('moderators.events')->with('success', 'Event created successfully!');
     }
 
     /**
@@ -84,8 +132,12 @@ class EventController extends Controller
             ['name' => 'View Event', 'url' => route('moderators.viewEvent', $event->id)],
         ];
 
-        return view('events.view', compact('event', 'breadcrumbs'));
+        // Get the skills associated with the event
+        $eventSkills = $event->skills()->implode('name', ', ');
+
+        return view('events.view', compact('event', 'breadcrumbs', 'eventSkills'));
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -97,14 +149,17 @@ class EventController extends Controller
             ['name' => 'Events', 'url' => route('moderators.events')],
             ['name' => 'Edit Event', 'url' => route('moderators.editEvent', $event->id)],
         ];
-        // Retrieve the event and pass it to the edit view
-        return view('events.edit', compact('event', 'breadcrumbs'));
+
+        // Get the skills associated with the event
+        $eventSkills = $event->skills()->pluck('name')->toArray();
+
+        return view('events.edit', compact('event', 'breadcrumbs', 'eventSkills'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Event $event)
+    /* public function update(Request $request, Event $event)
     {
         // Validate the request data
         $validatedData = $request->validate([
@@ -132,6 +187,54 @@ class EventController extends Controller
 
         // Update the event with the validated data
         $event->update($validatedData);
+
+        // Redirect to the events page with a success message
+        return redirect()->route('moderators.events')->with('success', 'Event updated successfully!');
+    } */
+
+    public function update(Request $request, Event $event)
+    {
+        // Validate the request data
+        $validatedData = $request->validate([
+            'title'             => ['required', 'string', 'max:255'],
+            'description'       => ['required', 'string'],
+            'num_of_needed_vol' => ['required', 'integer', 'min:1'],
+            'start_date'        => ['required', 'date'],
+            'end_date'          => ['required', 'date', 'after_or_equal:start_date'],
+            'start_time'        => ['required', 'date_format:H:i'],
+            'end_time'          => ['required', 'date_format:H:i', 'after:start_time'],
+            'location'          => ['required', 'string', 'max:255'],
+            'poster'            => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+            'skills'            => ['nullable', 'array'],
+            'skills.*'          => ['nullable', 'string'],
+        ]);
+
+        // Handle file upload for poster if it exists
+        if ($request->hasFile('poster')) {
+            // Delete the old poster if it exists
+            if ($event->poster) {
+                Storage::delete('public/posters/' . $event->poster);
+            }
+
+            $posterPath = $request->file('poster')->store('public/posters');
+            $validatedData['poster'] = "posters/".basename($posterPath);
+        }
+
+        // Update the event with the validated data
+        $event->update($validatedData);
+
+        // Handle the skills input
+        if ($request->filled('skills')) {
+            // Detach the existing skills
+            $event->skills()->detach();
+
+            // Attach the new skills
+            $skills = collect($request->input('skills', []))->filter()->map(function ($skill) {
+                return Skill::firstOrCreate(['name' => $skill, 'description' => $skill])->id;
+            });
+
+            $event->skills()->attach($skills);
+        }
 
         // Redirect to the events page with a success message
         return redirect()->route('moderators.events')->with('success', 'Event updated successfully!');
@@ -180,7 +283,9 @@ class EventController extends Controller
             ['name' => 'View Completed Events', 'url' => route('moderators.viewCompletedEvent', $event->id)],
         ];
 
-        return view('events.viewCompleted', compact('breadcrumbs', 'event'));
+        $eventSkills = $event->skills()->implode('name', ', ');
+
+        return view('events.viewCompleted', compact('breadcrumbs', 'event', 'eventSkills'));
     }
 
     public function eventsList(Request $request)
@@ -189,6 +294,7 @@ class EventController extends Controller
             ['name' => 'Home', 'url' => route('volunteers.index')],
             ['name' => 'Events', 'url' => route('volunteers.events')],
         ];
+
 
         if($request->query('search') !== null) {
             $search = $request->query('search');
@@ -230,12 +336,15 @@ class EventController extends Controller
         // Check if the number of assigned users has met the num_of_needed_vol attribute
         $isEventFull = $event->assignedUsers()->count() >= $event->num_of_needed_vol;
 
+        $eventSkills = $event->skills()->implode('name', ', ');
+
         return view('events.eventDetails', compact(
             'breadcrumbs',
             'event',
             'hasPendingOrAcceptedApplication',
             'isAssignedToEvent',
-            'isEventFull'
+            'isEventFull',
+            'eventSkills'
         ));
     }
 

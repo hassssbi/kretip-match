@@ -109,6 +109,41 @@
             </div>
 
             <div class="form-group">
+                <label for="skills" class="input-label">Skills</label>
+                <div id="skills-container">
+                    @if($user->skills)
+                        <div class="input-group mb-3">
+                            <input type="text" name="skills[]" class="form-control" placeholder="Enter a skill">
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-success add-skill-btn">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        @foreach($user->skills as $skill)
+                            <div class="input-group mb-3">
+                                <input type="text" name="skills[]" class="form-control" value="{{ $skill->name }}" placeholder="Enter a skill">
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-danger remove-skill-btn">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        @endforeach
+                    @else
+                        <div class="input-group mb-3">
+                            <input type="text" name="skills[]" class="form-control" placeholder="Enter a skill">
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-success add-skill-btn">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    @endif
+                </div>
+            </div>
+
+            <div class="form-group">
                 <label for="image" class="input-label">Profile Image</label>
                 <input type="file" name="image" id="image" class="form-control @error('image') is-invalid @enderror">
                 @error('image')
@@ -126,5 +161,45 @@
         </form>
     </div>
 </div>
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelector('.add-skill-btn').addEventListener('click', function () {
+            const skillInputGroup = document.createElement('div');
+            skillInputGroup.classList.add('input-group', 'mb-3');
+
+            const skillInput = document.createElement('input');
+            skillInput.type = 'text';
+            skillInput.name = 'skills[]';
+            skillInput.classList.add('form-control');
+            skillInput.placeholder = 'Enter a skill';
+
+            const inputGroupAppend = document.createElement('div');
+            inputGroupAppend.classList.add('input-group-append');
+
+            const removeButton = document.createElement('button');
+            removeButton.type = 'button';
+            removeButton.classList.add('btn', 'btn-danger', 'remove-skill-btn');
+            removeButton.innerHTML = '<i class="fa fa-minus"></i>';
+            removeButton.addEventListener('click', function () {
+                skillInputGroup.remove();
+            });
+
+            inputGroupAppend.appendChild(removeButton);
+            skillInputGroup.appendChild(skillInput);
+            skillInputGroup.appendChild(inputGroupAppend);
+
+            document.getElementById('skills-container').appendChild(skillInputGroup);
+        });
+
+        document.querySelectorAll('.remove-skill-btn').forEach(function(button) {
+            button.addEventListener('click', function() {
+                this.closest('.input-group').remove();
+            });
+        });
+    });
+</script>
+@endpush
 
 @endsection

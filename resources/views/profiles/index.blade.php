@@ -47,6 +47,10 @@
                     <label for="" class="input-label">Gender</label>
                     <input class="form-control-plaintext" readonly type="text" value="{{ $user->gender }}">
                 </div>
+                <div class="form-group">
+                    <label for="" class="input-label">Skills</label>
+                    <textarea readonly name="" id="" class="form-control-plaintext" style="resize: none">{{ $skills ?: 'No skills.' }}</textarea>
+                </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
@@ -55,7 +59,7 @@
                 </div>
                 <div class="form-group">
                     <label for="" class="input-label">Address</label>
-                    <input class="form-control-plaintext" readonly type="text" value="{{ $user->address }}">
+                    <textarea readonly name="" id="" class="form-control-plaintext" style="resize: none">{{ $user->address }}</textarea>
                 </div>
                 <div class="form-group">
                     <label for="" class="input-label">Postcode</label>
@@ -67,7 +71,7 @@
                 </div>
                 <div class="form-group">
                     <label for="" class="input-label">About You</label>
-                    <input class="form-control-plaintext" readonly type="text" value="{{ $user->about }}">
+                    <textarea readonly name="" id="" class="form-control-plaintext" style="resize: none">{{ $user->about }}</textarea>
                 </div>
             </div>
         </div>

@@ -25,6 +25,11 @@
 
                             <dt class="col-4">Volunteers Needed</dt>
                             <dd class="col-8">{{ $application->event->assignedUsers()->count() }} / {{ $application->event->num_of_needed_vol }}</dd>
+
+                            <dt class="col-4">Skills</dt>
+                            <dd class="col-8">
+                                {{ $application->event->skills->implode('name', ', ') ?: 'No specific skills required.' }}
+                            </dd>
                         </dl>
 
                         <div class="btn-row text-end">

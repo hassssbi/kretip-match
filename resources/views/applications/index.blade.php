@@ -25,6 +25,15 @@
 
                             <dt class="col-4">Volunteers Needed</dt>
                             <dd class="col-8">{{ $event->assignedUsers()->count() }} / {{ $event->num_of_needed_vol }}</dd>
+
+                            <dt class="col-4">Skills</dt>
+                            <dd class="col-8">
+                                @if(!empty($eventSkills))
+                                    {{ $eventSkills }}
+                                @else
+                                    No specific skills required.
+                                @endif
+                            </dd>
                         </dl>
                     </div>
                     <div class="btn-row text-end">

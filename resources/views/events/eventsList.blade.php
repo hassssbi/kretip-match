@@ -37,6 +37,11 @@
 
                                 <dt class="col-4">Volunteers Needed</dt>
                                 <dd class="col-8">{{ $e->assignedUsers()->count() }} / {{ $e->num_of_needed_vol }}</dd>
+
+                                <dt class="col-4">Skills</dt>
+                                <dd class="col-8">
+                                    {{ $e->skills->implode('name', ', ') ?: 'No specific skills required.' }}
+                                </dd>
                             </dl>
                             <div class="btn-row text-end">
                                 <a href="{{ route('volunteers.eventDetails', $e->id) }}" class="btn btn-primary">More Details</a>
