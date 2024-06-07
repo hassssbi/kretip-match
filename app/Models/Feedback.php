@@ -15,6 +15,7 @@ class Feedback extends Model
         'event_id',
         'user_id',
         'message',
+        'rating',
     ];
 
     // Relationship to the User who provided the feedback

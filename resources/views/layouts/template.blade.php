@@ -204,7 +204,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('volunteers.assignedEvents') }}" class="nav-link @if(Request::routeIs('volunteers.assignedEvents') || Request::routeIs('volunteers.assignedEventsDetails')) active @endif">
+                <a href="{{ route('volunteers.assignedEvents') }}" class="nav-link @if(Request::routeIs('volunteers.assignedEvents') || Request::routeIs('volunteers.assignedEventsDetails') || Request::routeIs('volunteers.submitFeedback')) active @endif">
                 <i class="fas fa-calendar-check nav-icon"></i>
                 <p>Assigned Events</p>
                 </a>
@@ -287,11 +287,8 @@
 <!-- overlayScrollbars -->
 <script src="{{ asset('admin/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
 <!-- AdminLTE App -->
-<script src="{{ asset('admin/dist/js/adminlte.js') }}"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="{{ asset('admin/dist/js/demo.js') }}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="{{ asset('admin/dist/js/pages/dashboard.js') }}"></script>
 <!-- SweetAlert2 JS -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- Optional: Include jQuery if you want to use it -->

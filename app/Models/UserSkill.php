@@ -9,7 +9,7 @@ class UserSkill extends Model
 {
     use HasFactory;
 
-    protected $table = 'users_skills';
+    public $table = 'users_skills';
 
     protected $fillable = [
         'user_id',

@@ -9,7 +9,7 @@ class Admin extends User
 {
     use HasFactory;
 
-    protected $table = 'users';
+    public $table = 'users';
 
     protected $attributes = [
         'role_id' => 1,

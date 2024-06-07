@@ -60,17 +60,8 @@
                     </ul>
                 </p>
                 <div class="btn-row text-end">
-                    <button class="btn btn-warning">Submit Feedback</button>
+                    <a href="{{ route('volunteers.submitFeedback', $event->id)}}" class="btn btn-warning">Submit Feedback</a>
                 </div>
-
-                <form id="applyForm" action="{{ route('volunteers.submitApplication', $event->id) }}" method="POST" style="display: none;">
-                    @csrf
-                    @method('POST')
-                    <input type="hidden" id="event_id" name="event_id" value="{{ $event->id }}">
-                    <input type="hidden" id="user_id" name="user_id" value="{{ Auth::user()->id }}">
-                    <input type="hidden" id="message" name="message" value="{{ Auth::user()->name }} has applied for Event {{ $event->title }}">
-                    <input type="hidden" id="mod_id" name="mod_id" value="{{ $event->user_id }}">
-                </form>
             </div>
         </div>
     </div>

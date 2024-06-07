@@ -20,8 +20,38 @@ class FeedbackController extends Controller
             ['name' => 'View Completed Events', 'url' => route('moderators.viewCompletedEvent', $event->id)],
             ['name' => 'Feedbacks', 'url' => route('moderators.feedbacks', $event->id)],
         ];
-        $feedbacks = Feedback::where('event_id', $event->id)->get();
+
+        $feedbacks = Feedback::with(['user', 'event'])->where('event_id', $event->id)->latest()->get();
         return view('feedbacks.index', compact('breadcrumbs', 'event', 'feedbacks'));
+    }
+
+    public function submitFeedback(Event $event)
+    {
+        $breadcrumbs = [
+            ['name' => 'Home', 'url' => route('volunteers.index')],
+            ['name' => 'Assigned Events', 'url' => route('volunteers.assignedEvents')],
+            ['name' => 'View Assigned Events', 'url' => route('volunteers.assignedEventsDetails', $event->id)],
+            ['name' => 'Submit Feedback', 'url' => route('volunteers.submitFeedback', $event->id)],
+        ];
+
+        return view('feedbacks.submit', compact('breadcrumbs', 'event'));
+    }
+
+    public function storeFeedback(Request $request, Event $event)
+    {
+        $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+            'message' => 'required|string|max:1000',
+        ]);
+
+        Feedback::create([
+            'event_id' => $event->id,
+            'user_id' => auth()->user()->id,
+            'rating' => $request->input('rating'),
+            'message' => $request->input('message'),
+        ]);
+
+        return redirect()->route('volunteers.assignedEventsDetails', $event->id)->with('success', 'Feedback submitted successfully.');
     }
 
     /**

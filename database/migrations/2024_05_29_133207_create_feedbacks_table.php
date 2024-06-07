@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedInteger('event_id');
             $table->unsignedInteger('user_id');
             $table->text('message');
+            $table->unsignedInteger('rating');
             $table->timestamps();
         });
     }

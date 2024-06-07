@@ -55,11 +55,12 @@
                                 <tr>
                                     <td>{{ $a->id }}</td>
                                     <td>{{ $a->user->name }}</td>
-                                    <td>{{ $a->status }}</td>
                                     <td>
-                                        <button class="btn-accept btn btn-success">Accept</button>
-                                        <button class="btn-reject btn btn-danger">Reject</button>
-
+                                        <div class="badge text-md {{ ($a->status === 'Accepted' ? 'badge-success' : ($a->status === 'Rejected' || $a->status === 'Canceled' ? 'badge-danger' : 'badge-warning')) }}">{{ Str::upper($a->status)  }}</div>
+                                    </td>
+                                    <td>
+                                        <button class="btn-accept btn btn-success" {{ ($a->status !== 'Accepted' && $a->status !== 'Rejected') ? '' : 'disabled' }} >Accept</button>
+                                        <button class="btn-reject btn btn-danger" {{ ($a->status !== 'Accepted' && $a->status !== 'Rejected') ? '' : 'disabled' }}>Reject</button>
                                         <!-- Invisible forms for accepting and rejecting applications -->
                                         <form method="POST" action="{{ route('moderators.applicationsAccept', $a->id) }}" class="d-none form-accept">
                                             @csrf

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Moderator;
+use App\Models\Application;
+use App\Models\Feedback;
 use Illuminate\Http\Request;
 
 class ModeratorController extends Controller
@@ -12,11 +14,14 @@ class ModeratorController extends Controller
      */
     public function index()
     {
+        $applications = Application::with(['user', 'event'])->latest()->get();
+        $feedbacks = Feedback::with(['user', 'event'])->latest()->get();
+
         $breadcrumbs = [
             ['name' => 'Home', 'url' => route('moderators.index')],
             ['name' => 'Dashboard', 'url' => route('moderators.index')]
         ];
-        return view('moderators.index', compact('breadcrumbs'));
+        return view('moderators.index', compact('breadcrumbs', 'applications', 'feedbacks'));
     }
 
     /**

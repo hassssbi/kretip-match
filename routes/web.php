@@ -53,6 +53,8 @@ Route::prefix('volunteer')->name('volunteers.')->group(function () {
     Route::get('/status/view/{application}', [ApplicationController::class, 'statusDetails'])->name('statusDetails');
     Route::get('/assigned-events', [EventController::class, 'assignedEvents'])->name('assignedEvents');
     Route::get('/assigned-events/{event}', [EventController::class, 'assignedEventDetails'])->name('assignedEventsDetails');
+    Route::get('/assigned-events/{event}/feedback', [FeedbackController::class, 'submitFeedback'])->name('submitFeedback');
+    Route::post('/assigned-events/{event}/feedback', [FeedbackController::class, 'storeFeedback'])->name('storeFeedback');
 });
 
 // Moderator Routes

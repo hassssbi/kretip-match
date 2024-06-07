@@ -24,7 +24,9 @@
                             <td>{{ $e->start_date }} - {{ $e->end_date }}</td>
                             <td>{{ $e->location }}</td>
                             <td>{{ $e->assignedUsers()->count() }} / {{ $e->num_of_needed_vol }}</td>
-                            <td>{{ $e->status }}</td>
+                            <td>
+                                <div class="badge text-md {{ ($e->status === 'Completed' ? 'badge-success' : ($e->status === 'Canceled' ? 'badge-danger' : 'badge-warning')) }}">{{ Str::upper($e->status)  }}</div>
+                            </td>
                             <td>
                                 <a href="{{ route('moderators.viewCompletedEvent', $e->id) }}" class="btn btn-warning">
                                     <i class="fas fa-eye nav-icon"></i>

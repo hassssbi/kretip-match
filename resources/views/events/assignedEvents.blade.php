@@ -40,7 +40,7 @@
 
                                     <dt class="col-4">Event Status</dt>
                                     <dd class="col-8">
-                                        <div class="badge text-md {{ $a->event->status == 'Completed' ? 'badge-success' : ($a->event->status == 'Pending' ? 'badge-warning' : 'badge-info') }}">{{ $a->event->status }}</div>
+                                        <div class="badge text-md {{ $a->event->status == 'Completed' ? 'badge-success' : ($a->event->status == 'Pending' ? 'badge-warning' : 'badge-info') }}">{{ Str::upper($a->event->status) }}</div>
                                     </dd>
                                 </dl>
                                 <div class="btn-row text-end">

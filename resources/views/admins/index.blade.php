@@ -83,6 +83,7 @@
                                 </div>
                             </div>
                         @endforeach
+                        <a href="{{ route('admins.users') }}" class="btn btn-warning">View Users</a>
                     </div>
                 </div>
             </div>
@@ -91,51 +92,54 @@
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 <script>
-const xValues = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-const yValues = [0,1,1,2,2,2,4,4,4,4,5,5];
-const myChart = new Chart("myChart", {
-    type: "line",
-    data: {
-        labels: xValues,
-        datasets: [{
-            fill: false,
-            lineTension: 0,
-            backgroundColor: "rgba(0,0,255,1.0)",
-            borderColor: "rgba(0,0,255,0.1)",
-            data: yValues
-        }],
-    },
-    options: {
-        plugins: {
-            title: {
-                display: true,
-                text: "Number of Registrations",
-                padding: {
-                    top: 10,
-                    bottom: 30,
+document.addEventListener("DOMContentLoaded", function() {
+    const xValues = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const yValues = @json(array_values($registrationsData));
+
+    const myChart = new Chart("myChart", {
+        type: "line",
+        data: {
+            labels: xValues,
+            datasets: [{
+                fill: false,
+                lineTension: 0,
+                backgroundColor: "rgba(0,0,255,1.0)",
+                borderColor: "rgba(0,0,255,0.1)",
+                data: yValues
+            }],
+        },
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: "Number of Registrations",
+                    padding: {
+                        top: 10,
+                        bottom: 30,
+                    },
                 },
             },
+            legend: {
+                display: false,
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        stepSize: 1,
+                        min: 0,
+                    },
+                    gridLines: {
+                        // display: false,
+                    },
+                }],
+                xAxes: [{
+                    gridLines: {
+                        display: false,
+                    }
+                }],
+            },
         },
-        legend: {
-            display: false,
-        },
-        scales: {
-            yAxes: [{
-                ticks: {
-                    stepSize: 1,
-                    min: 0,
-                },
-                gridLines: {
-                    // display: false,
-                },
-            }],
-            xAxes: [{
-                gridLines: {
-                    display: false,
-                }
-            }],
-        },
-    },
+    });
 });
 </script>
 @endsection

@@ -41,7 +41,7 @@
 
                                     <dt class="col-4">Status</dt>
                                     <dd class="col-8">
-                                        <div class="badge text-md {{ $a->status == 'Accepted' ? 'badge-success' : ($a->status == 'Rejected' ? 'badge-danger' : 'badge-warning') }}">{{ $a->status }}</div>
+                                        <div class="badge text-md {{ $a->status == 'Accepted' ? 'badge-success' : ($a->status == 'Rejected' ? 'badge-danger' : 'badge-warning') }}">{{ Str::upper($a->status) }}</div>
                                     </dd>
                                 </dl>
                                 <div class="btn-row text-end">

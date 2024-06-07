@@ -7,13 +7,15 @@ use App\Models\User;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+
 
 class AdminController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    /* public function index()
     {
         $acount = User::admins()->count();
         $mcount = User::moderators()->count();
@@ -27,7 +29,38 @@ class AdminController extends Controller
             ['name' => 'Dashboard', 'url' => route('admins.index')]
         ];
         return view('admins.index', compact('breadcrumbs', 'acount', 'mcount', 'vcount', 'year', 'newMembers'));
+    } */
+
+    public function index()
+    {
+        $acount = User::admins()->count();
+        $mcount = User::moderators()->count();
+        $vcount = User::volunteers()->count();
+        $year = Carbon::now()->year;
+
+        // Retrieve the number of registrations per month for the current year
+        $registrationsPerMonth = User::select(DB::raw('MONTH(created_at) as month'), DB::raw('count(*) as count'))
+            ->whereYear('created_at', $year)
+            ->groupBy(DB::raw('MONTH(created_at)'))
+            ->pluck('count', 'month')
+            ->all();
+
+        // Format the data to ensure each month is represented, even if there are no registrations
+        $registrationsData = array_fill(1, 12, 0);
+        foreach ($registrationsPerMonth as $month => $count) {
+            $registrationsData[$month] = $count;
+        }
+
+        $newMembers = User::latest()->take(3)->get();
+
+        $breadcrumbs = [
+            ['name' => 'Home', 'url' => route('admins.index')],
+            ['name' => 'Dashboard', 'url' => route('admins.index')]
+        ];
+
+        return view('admins.index', compact('breadcrumbs', 'acount', 'mcount', 'vcount', 'year', 'newMembers', 'registrationsData'));
     }
+
 
     public function users()
     {
