@@ -5,7 +5,6 @@
     <div class="card-body">
         <div class="row justify-content-center">
             <div class="col-8">
-
                 <div class="col-12 border-bottom mb-2">
                     <h3>Event Details</h3>
                 </div>
@@ -73,7 +72,6 @@
                         </div>
                     </div>
 
-
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
@@ -107,6 +105,21 @@
                                 <strong>{{ $message }}</strong>
                             </span>
                         @enderror
+
+                        <div class="form-group row mt-2">
+                            <div class="col-6">
+                                <label for="latitude" class="input-label">Latitude</label>
+                                <input id="latitude" type="text" class="form-control @error('latitude') is-invalid @enderror" name="latitude" value="{{ old('latitude') }}" required autocomplete="latitude" autofocus>
+
+                            </div>
+
+                            <div class="col-6">
+                                <label for="longitude" class="input-label">Longitude</label>
+                                <input id="longitude" type="text" class="form-control @error('longitude') is-invalid @enderror" name="longitude" value="{{ old('longitude') }}" required autocomplete="longitude" autofocus>
+                            </div>
+                        </div>
+
+                        <div id="map" style="height: 300px; margin-top: 10px;"></div>
                     </div>
 
                     <div class="row">
@@ -152,37 +165,80 @@
 <script>
 document.getElementById('start_date').valueAsDate = new Date();
 document.getElementById('end_date').valueAsDate = new Date();
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelector('.add-skill-btn').addEventListener('click', function () {
-            const skillInputGroup = document.createElement('div');
-            skillInputGroup.classList.add('input-group', 'mb-3');
 
-            const skillInput = document.createElement('input');
-            skillInput.type = 'text';
-            skillInput.name = 'skills[]';
-            skillInput.classList.add('form-control');
-            skillInput.placeholder = 'Enter a skill';
+document.addEventListener('DOMContentLoaded', function () {
+    // Initialize the map
+    var map = L.map('map').setView([3.1390, 101.6869], 13); // Set initial view to Kuala Lumpur
 
-            const inputGroupAppend = document.createElement('div');
-            inputGroupAppend.classList.add('input-group-append');
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+    }).addTo(map);
 
-            const removeButton = document.createElement('button');
-            removeButton.type = 'button';
-            removeButton.classList.add('btn', 'btn-danger');
-            removeButton.innerHTML = '<i class="fa fa-minus"></i>';
-            removeButton.addEventListener('click', function () {
-                skillInputGroup.remove();
+    var marker;
+
+    function onMapClick(e) {
+        if (marker) {
+            map.removeLayer(marker);
+        }
+        marker = L.marker(e.latlng).addTo(map);
+        document.getElementById('location').value = e.latlng.lat + ", " + e.latlng.lng;
+        document.getElementById('latitude').value = e.latlng.lat;
+        document.getElementById('longitude').value = e.latlng.lng;
+    }
+
+    map.on('click', onMapClick);
+
+    // Handle location search
+    document.getElementById('location').addEventListener('input', function () {
+        var query = this.value;
+        fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + query)
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.length > 0) {
+                    var place = data[0];
+                    var latLng = [place.lat, place.lon];
+                    map.setView(latLng, 13);
+
+                    if (marker) {
+                        map.removeLayer(marker);
+                    }
+                    marker = L.marker(latLng).addTo(map);
+
+                    document.getElementById('latitude').value = place.lat;
+                    document.getElementById('longitude').value = place.lon;
+                }
             });
-
-            inputGroupAppend.appendChild(removeButton);
-            skillInputGroup.appendChild(skillInput);
-            skillInputGroup.appendChild(inputGroupAppend);
-
-            document.getElementById('skills-container').appendChild(skillInputGroup);
-        });
     });
+
+    // Handle adding and removing skill fields
+    document.querySelector('.add-skill-btn').addEventListener('click', function () {
+        const skillInputGroup = document.createElement('div');
+        skillInputGroup.classList.add('input-group', 'mb-3');
+
+        const skillInput = document.createElement('input');
+        skillInput.type = 'text';
+        skillInput.name = 'skills[]';
+        skillInput.classList.add('form-control');
+        skillInput.placeholder = 'Enter a skill';
+
+        const inputGroupAppend = document.createElement('div');
+        inputGroupAppend.classList.add('input-group-append');
+
+        const removeButton = document.createElement('button');
+        removeButton.type = 'button';
+        removeButton.classList.add('btn', 'btn-danger');
+        removeButton.innerHTML = '<i class="fa fa-minus"></i>';
+        removeButton.addEventListener('click', function () {
+            skillInputGroup.remove();
+        });
+
+        inputGroupAppend.appendChild(removeButton);
+        skillInputGroup.appendChild(skillInput);
+        skillInputGroup.appendChild(inputGroupAppend);
+
+        document.getElementById('skills-container').appendChild(skillInputGroup);
+    });
+});
 </script>
 @endpush
 @endsection

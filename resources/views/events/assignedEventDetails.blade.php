@@ -46,7 +46,10 @@
     <div class="col-6">
         <div class="card">
             <div class="card-body card-info">
-                <p class="p-5">map</p>
+                <input type="text" name="location" id="location" value="{{ $event->location }}" class="d-none">
+                <input type="text" name="latitude" id="latitude" value="{{ $event->latitude }}" class="d-none">
+                <input type="text" name="longitude" id="longitude" value="{{ $event->longitude }}" class="d-none">
+                <div id="map" style="height: 300px; margin-top: 10px;"></div>
             </div>
         </div>
     </div>
@@ -71,5 +74,20 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialize the map
+            var loc_lat = document.getElementById('latitude').value;
+            var loc_lng = document.getElementById('longitude').value;
+            var map = L.map('map').setView([loc_lat, loc_lng], 13); // Set initial view to Kuala Lumpur
+            var loc_marker = L.marker([loc_lat, loc_lng]).addTo(map);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+            }).addTo(map);
+        });
+    </script>
+@endpush
 
 @endsection

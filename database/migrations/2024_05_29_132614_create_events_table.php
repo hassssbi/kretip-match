@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('start_time');
             $table->string('end_time');
             $table->string('location')->nullable();
+            $table->string('latitude')->nullable();
+            $table->string('longitude')->nullable();
             $table->string('status');
             $table->string('poster')->nullable();
             $table->unsignedInteger('num_of_needed_vol');

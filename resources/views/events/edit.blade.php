@@ -73,7 +73,6 @@
                         </div>
                     </div>
 
-
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
@@ -107,6 +106,20 @@
                                 <strong>{{ $message }}</strong>
                             </span>
                         @enderror
+
+                        <div class="form-group row mt-2">
+                            <div class="col-6">
+                                <label for="latitude" class="input-label">Latitude</label>
+                                <input id="latitude" type="text" class="form-control @error('latitude') is-invalid @enderror" name="latitude" value="{{ $event->latitude }}" required autocomplete="latitude" autofocus>
+                            </div>
+
+                            <div class="col-6">
+                                <label for="longitude" class="input-label">Longitude</label>
+                                <input id="longitude" type="text" class="form-control @error('longitude') is-invalid @enderror" name="longitude" value="{{ $event->longitude }}" required autocomplete="longitude" autofocus>
+                            </div>
+                        </div>
+
+                        <div id="map" style="height: 300px; margin-top: 10px;"></div>
                     </div>
 
                     <div class="row">
@@ -148,7 +161,6 @@
                         </div>
                     </div>
 
-
                     <div class="form-group">
                         <label for="poster" class="input-label">Poster</label>
                         <input type="file" name="poster" id="poster" class="form-control @error('poster') is-invalid @enderror">
@@ -172,39 +184,94 @@
         </div>
     </div>
 </div>
+
 @push('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            document.querySelector('.add-skill-btn').addEventListener('click', function () {
-                const skillInputGroup = document.createElement('div');
-                skillInputGroup.classList.add('input-group', 'mb-3');
 
-                const skillInput = document.createElement('input');
-                skillInput.type = 'text';
-                skillInput.name = 'skills[]';
-                skillInput.classList.add('form-control');
-                skillInput.placeholder = 'Enter a skill';
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Initialize the map
+        var loc_lat = document.getElementById('latitude').value;
+        var loc_lng = document.getElementById('longitude').value;
+        var map = L.map('map').setView([loc_lat, loc_lng], 13); // Set initial view to Kuala Lumpur
+        var loc_marker = L.marker([loc_lat, loc_lng]).addTo(map);
 
-                const inputGroupAppend = document.createElement('div');
-                inputGroupAppend.classList.add('input-group-append');
 
-                const removeButton = document.createElement('button');
-                removeButton.type = 'button';
-                removeButton.classList.add('btn', 'btn-danger');
-                removeButton.innerHTML = '<i class="fa fa-minus"></i>';
-                removeButton.addEventListener('click', function () {
-                    skillInputGroup.remove();
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+        }).addTo(map);
+
+        var marker;
+
+        function onMapClick(e) {
+            if (marker) {
+                map.removeLayer(marker);
+            }
+            marker = L.marker(e.latlng).addTo(map);
+            document.getElementById('location').value = e.latlng.lat + ", " + e.latlng.lng;
+            document.getElementById('latitude').value = e.latlng.lat;
+            document.getElementById('longitude').value = e.latlng.lng;
+        }
+
+        map.on('click', onMapClick);
+
+        // Handle location search
+        document.getElementById('location').addEventListener('input', function () {
+            var query = this.value;
+            fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + query)
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.length > 0) {
+                        var place = data[0];
+                        var latLng = [place.lat, place.lon];
+                        map.setView(latLng, 13);
+
+                        if (marker) {
+                            map.removeLayer(marker);
+                        }
+
+                        if(loc_marker) {
+                            map.removeLayer(loc_marker);
+                        }
+
+                        marker = L.marker(latLng).addTo(map);
+
+                        document.getElementById('latitude').value = place.lat;
+                        document.getElementById('longitude').value = place.lon;
+                    }
                 });
-
-                inputGroupAppend.appendChild(removeButton);
-                skillInputGroup.appendChild(skillInput);
-                skillInputGroup.appendChild(inputGroupAppend);
-
-                document.getElementById('skills-container').appendChild(skillInputGroup);
-            });
         });
-    </script>
 
+
+        // Handle adding and removing skill fields
+        document.querySelector('.add-skill-btn').addEventListener('click', function () {
+            const skillInputGroup = document.createElement('div');
+            skillInputGroup.classList.add('input-group', 'mb-3');
+
+            const skillInput = document.createElement('input');
+            skillInput.type = 'text';
+            skillInput.name = 'skills[]';
+            skillInput.classList.add('form-control');
+            skillInput.placeholder = 'Enter a skill';
+
+            const inputGroupAppend = document.createElement('div');
+            inputGroupAppend.classList.add('input-group-append');
+
+            const removeButton = document.createElement('button');
+            removeButton.type = 'button';
+            removeButton.classList.add('btn', 'btn-danger');
+            removeButton.innerHTML = '<i class="fa fa-minus"></i>';
+            removeButton.addEventListener('click', function () {
+                skillInputGroup.remove();
+            });
+
+            inputGroupAppend.appendChild(removeButton);
+            skillInputGroup.appendChild(skillInput);
+            skillInputGroup.appendChild(inputGroupAppend);
+
+            document.getElementById('skills-container').appendChild(skillInputGroup);
+        });
+    });
+</script>
 @endpush
 
 @endsection

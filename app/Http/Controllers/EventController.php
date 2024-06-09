@@ -44,37 +44,6 @@ class EventController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    /* public function store(Request $request)
-    {
-        $user = auth()->user();
-        // Validate the request data
-        $validatedData = $request->validate([
-            'title'             => ['required', 'string', 'max:255'],
-            'description'       => ['required', 'string'],
-            'num_of_needed_vol' => ['required', 'integer', 'min:1'],
-            'start_date'        => ['required', 'date'],
-            'end_date'          => ['required', 'date', 'after_or_equal:start_date'],
-            'start_time'        => ['required', 'date_format:H:i'],
-            'end_time'          => ['required', 'date_format:H:i', 'after:start_time'],
-            'location'          => ['required', 'string', 'max:255'],
-            'poster'            => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
-        ]);
-
-        // Handle file upload for poster if it exists
-        if ($request->hasFile('poster')) {
-            $posterPath = $request->file('poster')->store('public/posters');
-            $validatedData['poster'] = "posters/".basename($posterPath);
-        }
-
-        $validatedData['status'] = 'Pending';
-        $validatedData['user_id'] = $user->id;
-
-        // Create a new event with the validated data
-        Event::create($validatedData);
-
-        // Redirect to the events page with a success message
-        return redirect()->route('moderators.events')->with('success', 'Event created successfully!');
-    } */
 
     public function store(Request $request)
     {
@@ -90,6 +59,8 @@ class EventController extends Controller
             'start_time'        => ['required', 'date_format:H:i'],
             'end_time'          => ['required', 'date_format:H:i', 'after:start_time'],
             'location'          => ['required', 'string', 'max:255'],
+            'latitude'          => ['required', 'string', 'max:255'],
+            'longitude'         => ['required', 'string', 'max:255'],
             'poster'            => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
             'skills'            => ['nullable', 'array'],
             'skills.*'          => ['nullable', 'string'],
@@ -212,6 +183,8 @@ class EventController extends Controller
             'start_time'        => ['required', 'date_format:H:i'],
             'end_time'          => ['required', 'date_format:H:i', 'after:start_time'],
             'location'          => ['required', 'string', 'max:255'],
+            'latitude'          => ['required', 'string', 'max:255'],
+            'longitude'         => ['required', 'string', 'max:255'],
             'poster'            => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
             'skills'            => ['nullable', 'array'],
             'skills.*'          => ['nullable', 'string'],
