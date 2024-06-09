@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('content')
-<div class="container py-5 my-5">
-    <div class="d-flex justify-content-center py-4">
-        <div class="col-md-8 py-1">
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <div class="col-md-8">
             <div class="card text-center">
                 <div class="card-body">
                     <h1>Walk through the World with Us.</h1>

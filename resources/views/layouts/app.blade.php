@@ -69,6 +69,10 @@
         transition: all ease-in-out 2ms
     }
 
+    footer {
+        bottom: 0;
+    }
+
 
 </style>
 <body>
@@ -133,9 +137,20 @@
         </div>
     </nav>
 
-    <main class="py-5">
+    <main class="py-4 my-auto">
         @yield('content')
     </main>
+
+    <footer class="footer footer-expand-md bg-light p-3">
+        <div>
+            <strong>Copyright &copy; 2024-2025 <a href="https://adminlte.io">BYTEBLITZ</a>.</strong>
+            All rights reserved.
+
+            <div class="float-right d-none d-sm-inline-block">
+                <b>Version</b> 1.0
+            </div>
+        </div>
+    </footer>
 
 <!-- jQuery -->
 <script src="{{ asset('admin/plugins/jquery/jquery.min.js') }}"></script>
