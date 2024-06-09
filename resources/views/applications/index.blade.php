@@ -115,8 +115,11 @@
                                         <div class="badge text-md {{ ($a->status === 'Accepted' ? 'badge-success' : ($a->status === 'Rejected' || $a->status === 'Canceled' ? 'badge-danger' : 'badge-warning')) }}">{{ Str::upper($a->status)  }}</div>
                                     </td>
                                     <td>
-                                        <button class="btn-accept btn btn-success" {{ ($a->status !== 'Accepted' && $a->status !== 'Rejected' && $a->status !== 'Canceled') ? '' : 'disabled' }} >Accept</button>
-                                        <button class="btn-reject btn btn-danger" {{ ($a->status !== 'Accepted' && $a->status !== 'Rejected' && $a->status !== 'Canceled') ? '' : 'disabled' }}>Reject</button>
+                                        @if (Auth::user()->id == $a->event->user_id)
+                                            <button class="btn-accept btn btn-success" {{ ($a->status !== 'Accepted' && $a->status !== 'Rejected' && $a->status !== 'Canceled') ? '' : 'disabled' }} >Accept</button>
+                                            <button class="btn-reject btn btn-danger" {{ ($a->status !== 'Accepted' && $a->status !== 'Rejected' && $a->status !== 'Canceled') ? '' : 'disabled' }}>Reject</button>
+                                        @endif
+
                                         <!-- Invisible forms for accepting and rejecting applications -->
                                         <form method="POST" action="{{ route('moderators.applicationsAccept', $a->id) }}" class="d-none form-accept">
                                             @csrf
