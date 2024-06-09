@@ -206,6 +206,11 @@
             if (marker) {
                 map.removeLayer(marker);
             }
+
+            if(loc_marker) {
+                map.removeLayer(loc_marker);
+            }
+
             marker = L.marker(e.latlng).addTo(map);
             document.getElementById('location').value = e.latlng.lat + ", " + e.latlng.lng;
             document.getElementById('latitude').value = e.latlng.lat;
