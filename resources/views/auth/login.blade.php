@@ -52,7 +52,7 @@
                                     <a class="mb-1" href="{{ route('password.request') }}">Forgot your Password?</a>
                                     @endif
                                     <br>
-                                    <a href="{{ route('register') }}">Register an Account Here!</a>
+                                    <a href="{{ route('register') }}">Register as Volunteer!</a>
                                 </div>
                                 <div class="col-4">
                                     <button type="submit" class="btn btn-primary float-right">Login</button>

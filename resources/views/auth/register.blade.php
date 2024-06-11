@@ -6,7 +6,7 @@
         <div class="col-md-10">
             <div class="card p-3">
                 <div class="card-title">
-                    <h2 class="text-center">Registration</h2>
+                    <h2 class="text-center">Volunteer Registration</h2>
                 </div>
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
