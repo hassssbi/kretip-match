@@ -31,7 +31,7 @@
                                     </a>
                                     @csrf
                                     @method('DELETE')
-                                    @if (Auth::user()->id == $e->user_id)
+                                    @if (Auth::user()->id == $e->user_id && $e->status != 'Completed' )
                                         <a href="{{ route('moderators.editEvent', $e->id) }}" class="btn btn-primary">
                                             <i class="fas fa-edit nav-icon"></i>
                                         </a>

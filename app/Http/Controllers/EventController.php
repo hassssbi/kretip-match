@@ -229,6 +229,20 @@ class EventController extends Controller
         return redirect()->route('moderators.events')->with('success', 'Event updated successfully!');
     }
 
+    public function completeEvent(Request $request, Event $event) {
+        $event->update(['status' => 'Completed']);
+
+        // Create an announcement for the updated event
+        Announcement::create([
+            'title' => 'Event Completed',
+            'description' => "{$event->title} has been completed!",
+            'user_id' => $event->user_id,
+            'event_id' => $event->id,
+        ]);
+
+        return redirect()->route('moderators.events')->with('success', "{$event->title} has been completed!");
+    }
+
     /**
      * Remove the specified resource from storage.
      */
@@ -259,7 +273,7 @@ class EventController extends Controller
         ];
 
         $events = Event::where('status', 'Completed')->get();
-        $events = Event::all();
+        // $events = Event::all();
 
         return view('events.completed', compact('breadcrumbs', 'events'));
     }

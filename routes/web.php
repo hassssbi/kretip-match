@@ -75,6 +75,7 @@ Route::prefix('moderator')->name('moderators.')->group(function () {
     Route::post('/applications/{id}/reject', [ApplicationController::class, 'reject'])->name('applicationsReject');
     Route::get('/events/{event}/edit', [EventController::class, 'edit'])->name('editEvent');
     Route::put('/events/{event}', [EventController::class, 'update'])->name('updateEvent');
+    Route::put('/events/{event}/complete', [EventController::class, 'completeEvent'])->name('completeEvent');
     Route::delete('/events/{event}', [EventController::class, 'destroy'])->name('deleteEvent');
     Route::get('/completed-events', [EventController::class, 'completedEventsList'])->name('completedEvents');
     Route::get('/completed-events/{event}', [EventController::class, 'viewCompletedEvent'])->name('viewCompletedEvent');

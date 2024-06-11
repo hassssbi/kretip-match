@@ -32,17 +32,28 @@
                             </dd>
                         </dl>
 
-                        <div class="btn-row text-end">
-                            <form action="{{ route('moderators.deleteEvent', $event->id) }}" method="post">
-                                <a href="{{ route('moderators.events') }}" class="btn btn-default">Back</a>
-                                @csrf
-                                @method('DELETE')
-                                @if (Auth::user()->id == $event->user_id)
-                                    <a href="{{ route('moderators.editEvent', $event->id) }}" class="btn btn-primary">Edit</a>
-                                    <button type="submit" class="btn btn-danger btn-delete">Delete</button>
+                        <div class="row justify-content-between">
+                            <div class="col btn-row text-start">
+                            </div>
+                            <div class="col btn-row text-end d-inline">
+                                @if (Auth::user()->id == $event->user_id && $event->status != 'Completed' )
+                                    <form id="completeForm" class="d-inline-block" action="{{ route('moderators.completeEvent', $event->id) }}" method="post">
+                                    @csrf
+                                    @method('PUT')
+                                        <button type="submit" class="btn btn-danger btn-complete btn-success">Complete</button>
+                                    </form>
+                                    <a href="{{ route('moderators.editEvent', $event->id) }}" class="btn btn-primary d-inline-block">Edit</a>
+                                    <form class="d-inline-block" action="{{ route('moderators.deleteEvent', $event->id) }}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-delete">Delete</button>
+                                    </form>
                                 @endif
-                            </form>
+                                <a href="{{ route('moderators.events') }}" class="btn btn-default">Back</a>
+                            </div>
                         </div>
+
+
                     </div>
                 </div>
             </div>
@@ -110,18 +121,20 @@
             });
         });
 
-        document.querySelector('.btn-apply').addEventListener('click', function () {
+        document.querySelector('.btn-complete').addEventListener('click', function () {
+            event.preventDefault();
+            const form = this.closest('form');
             Swal.fire({
                 title: 'Are you sure?',
-                text: "Do you want to apply for this event?",
+                text: "Do you want to complete this event?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, apply!'
+                confirmButtonText: 'Yes, complete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    document.getElementById('applyForm').submit();
+                    form.submit();
                 }
             });
         });
