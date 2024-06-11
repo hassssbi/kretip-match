@@ -39,7 +39,7 @@ class AdminController extends Controller
         $year = Carbon::now()->year;
 
         // Retrieve the number of registrations per month for the current year
-        $registrationsPerMonth = User::select(DB::raw('MONTH(created_at) as month'), DB::raw('count(*) as count'))
+        $registrationsPerMonth = User::volunteers()->select(DB::raw('MONTH(created_at) as month'), DB::raw('count(*) as count'))
             ->whereYear('created_at', $year)
             ->groupBy(DB::raw('MONTH(created_at)'))
             ->pluck('count', 'month')

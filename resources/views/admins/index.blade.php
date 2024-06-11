@@ -61,7 +61,7 @@
                 <div class="card text-center">
                     <div class="card-body">
                         <div class="title pb-2">
-                            <h4>Number of Registrations</h4>
+                            <h4>Number of Volunteer Registrations</h4>
                         </div>
                         <div class="chart">
                             <canvas id="myChart"></canvas>
