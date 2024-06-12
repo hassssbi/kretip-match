@@ -120,10 +120,10 @@
                         $percentage = $total > 0 ? ($count / $total) * 100 : 0;
                     @endphp
                     <div class="row">
-                        <div class="col-1">
-                            <label class="input-label">{{ $rating }}</label>
+                        <div class="col-2">
+                            <label class="input-label">{{ $rating }}<i class="ml-2 fa fa-star text-lg"></i></label>
                         </div>
-                        <div class="col-9">
+                        <div class="col-8">
                             <div class="progress">
                                 <div class="progress-bar" role="progressbar" style="width: {{ $percentage }}%" aria-valuenow="{{ $count }}" aria-valuemin="0" aria-valuemax="{{ $total }}"></div>
                             </div>
