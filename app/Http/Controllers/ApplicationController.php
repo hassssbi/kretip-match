@@ -146,7 +146,7 @@ class ApplicationController extends Controller
         return redirect()->back()->with('success', 'Application rejected successfully.');
     }
 
-    public function cancelApplication(Application $application)
+    public function cancelApplication(Request $request, Application $application)
     {
         $application = Application::find($application->id);
 
@@ -158,10 +158,12 @@ class ApplicationController extends Controller
         }
 
         $application->status = 'Canceled';
+        $application->message = $request->input('reason'); // Update the message with the reason
         $application->save();
 
         return redirect()->route('volunteers.status')->with('success', 'Your application has been canceled.');
     }
+
 
 
 

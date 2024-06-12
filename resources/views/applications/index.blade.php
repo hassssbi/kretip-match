@@ -109,7 +109,7 @@
                     <tbody>
                         @if ($applications->count() > 0)
                             @foreach ($applications as $a)
-                                <tr data-id="{{ $a->id }}" data-address="{{ $a->user->address }}" data-skills="{{ $a->user->skills->implode('name', ', ') ?: 'No skills.' }}" data-icno="{{ $a->user->icno }}" data-name="{{ $a->user->name }}" data-status="{{ $a->status }}" data-email="{{ $a->user->email }}" data-phone="{{ $a->user->phone_number }}">
+                                <tr data-id="{{ $a->id }}" data-message="{{ $a->message }}" data-address="{{ $a->user->address }}" data-skills="{{ $a->user->skills->implode('name', ', ') ?: 'No skills.' }}" data-icno="{{ $a->user->icno }}" data-name="{{ $a->user->name }}" data-status="{{ $a->status }}" data-email="{{ $a->user->email }}" data-phone="{{ $a->user->phone_number }}">
                                     <td>{{ $a->id }}</td>
                                     <td>{{ $a->user->name }}</td>
                                     <td>
@@ -199,27 +199,53 @@
                 let icno = this.getAttribute('data-icno');
                 let skills = this.getAttribute('data-skills');
                 let address = this.getAttribute('data-address');
+                let message = this.getAttribute('data-message');
 
-                Swal.fire({
-                    title: name,
-                    html: `
-                        <dl class="row">
-                            <dt class="col-4 text-right">MyKAD No.</dt>
-                            <dd class="col-6 text-left">${icno}</dd>
-                            <dt class="col-4 text-right">Address</dt>
-                            <dd class="col-6 text-left">${address}</dd>
-                            <dt class="col-4 text-right">Phone</dt>
-                            <dd class="col-6 text-left">${phone}</dd>
-                            <dt class="col-4 text-right">Email</dt>
-                            <dd class="col-6 text-left">${email}</dd>
-                            <dt class="col-4 text-right">Skills</dt>
-                            <dd class="col-6 text-left">${skills}</dd>
-                        </dl>
-                    `,
+                if(status == 'Canceled') {
+                    Swal.fire({
+                        title: name,
+                        html: `
+                            <dl class="row">
+                                <dt class="col-4 text-right">MyKAD No.</dt>
+                                <dd class="col-6 text-left">${icno}</dd>
+                                <dt class="col-4 text-right">Address</dt>
+                                <dd class="col-6 text-left">${address}</dd>
+                                <dt class="col-4 text-right">Phone</dt>
+                                <dd class="col-6 text-left">${phone}</dd>
+                                <dt class="col-4 text-right">Email</dt>
+                                <dd class="col-6 text-left">${email}</dd>
+                                <dt class="col-4 text-right">Skills</dt>
+                                <dd class="col-6 text-left">${skills}</dd>
+                                <dt class="col-4 text-right">Reason for Cancellation</dt>
+                                <dd class="col-6 text-left">${message}</dd>
+                            </dl>
+                        `,
 
-                    icon: 'info',
-                    confirmButtonText: 'Close'
-                });
+                        icon: 'info',
+                        confirmButtonText: 'Close'
+                    });
+                } else {
+                    Swal.fire({
+                        title: name,
+                        html: `
+                            <dl class="row">
+                                <dt class="col-4 text-right">MyKAD No.</dt>
+                                <dd class="col-6 text-left">${icno}</dd>
+                                <dt class="col-4 text-right">Address</dt>
+                                <dd class="col-6 text-left">${address}</dd>
+                                <dt class="col-4 text-right">Phone</dt>
+                                <dd class="col-6 text-left">${phone}</dd>
+                                <dt class="col-4 text-right">Email</dt>
+                                <dd class="col-6 text-left">${email}</dd>
+                                <dt class="col-4 text-right">Skills</dt>
+                                <dd class="col-6 text-left">${skills}</dd>
+                            </dl>
+                        `,
+
+                        icon: 'info',
+                        confirmButtonText: 'Close'
+                    });
+                }
             });
         });
     });

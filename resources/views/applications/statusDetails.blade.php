@@ -78,6 +78,7 @@
 
                 <form id="cancelForm" action="{{ route('volunteers.cancelApplication', $application->id) }}" method="POST" style="display: none;">
                     @csrf
+                    <input type="hidden" name="reason" id="cancelReason">
                 </form>
             </div>
         </div>
@@ -91,19 +92,30 @@
                 title: 'Are you sure?',
                 text: "Do you want to cancel your application?",
                 icon: 'warning',
+                input: 'textarea',
+                inputPlaceholder: 'Enter your reason for cancellation...',
+                inputAttributes: {
+                    'aria-label': 'Enter your reason for cancellation',
+                    'style': 'resize: none'
+                },
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, cancel it!'
+                confirmButtonText: 'Yes, cancel it!',
+                preConfirm: (reason) => {
+                    if (!reason) {
+                        Swal.showValidationMessage('Reason is required');
+                        return false;
+                    }
+                    document.getElementById('cancelReason').value = reason;
+                }
             }).then((result) => {
                 if (result.isConfirmed) {
                     document.getElementById('cancelForm').submit();
                 }
             });
         });
-    });
 
-    document.addEventListener('DOMContentLoaded', function () {
         // Initialize the map
         var loc_lat = document.getElementById('latitude').value;
         var loc_lng = document.getElementById('longitude').value;
