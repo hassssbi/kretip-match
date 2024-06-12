@@ -29,7 +29,7 @@
                                                 </div>
                                             </div>
                                             <p class="card-text py-2">
-                                                {{ $application->message }}
+                                                {{  $application->status !== 'Canceled' ? $application->message : "Cancellation: {$application->message}" }}
                                             </p>
                                         </div>
                                     </div>
