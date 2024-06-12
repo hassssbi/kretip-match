@@ -45,7 +45,7 @@
 
                                 <dt class="col-4">Moderator</dt>
                                 <dd class="col-8">
-                                    {{ $event->moderator->name }}
+                                    {{ $e->moderator->name }}
                                 </dd>
                             </dl>
                             <div class="btn-row text-end">
