@@ -42,6 +42,11 @@
                                 <dd class="col-8">
                                     {{ $e->skills->implode('name', ', ') ?: 'No specific skills required.' }}
                                 </dd>
+
+                                <dt class="col-4">Moderator</dt>
+                                <dd class="col-8">
+                                    {{ $event->moderator->name }}
+                                </dd>
                             </dl>
                             <div class="btn-row text-end">
                                 <a href="{{ route('volunteers.eventDetails', $e->id) }}" class="btn btn-primary">More Details</a>

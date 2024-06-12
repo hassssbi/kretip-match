@@ -46,4 +46,9 @@ class Event extends Model
     {
         return $this->belongsToMany(User::class, 'events_assigned', 'event_id', 'user_id');
     }
+
+    public function moderator()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 }

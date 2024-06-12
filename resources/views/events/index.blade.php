@@ -12,6 +12,7 @@
                     <th>Date From - To</th>
                     <th>Location</th>
                     <th>Vol Needed</th>
+                    <th>Moderator</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -24,6 +25,7 @@
                             <td>{{ $e->start_date }} - {{ $e->end_date }}</td>
                             <td>{{ $e->location }}</td>
                             <td>{{ $e->assignedUsers()->count() }} / {{ $e->num_of_needed_vol }}</td>
+                            <td>{{ $e->moderator->name }}</td>
                             <td>
                                 <form action="{{ route('moderators.deleteEvent', $e->id) }}" method="post">
                                     <a href="{{ route('moderators.viewEvent', $e->id) }}" class="btn btn-warning">

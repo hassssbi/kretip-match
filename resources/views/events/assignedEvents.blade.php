@@ -43,6 +43,11 @@
                                         {{ $a->event->skills->implode('name', ', ') ?: 'No specific skills required.' }}
                                     </dd>
 
+                                    <dt class="col-4">Moderator</dt>
+                                    <dd class="col-8">
+                                        {{ $a->event->moderator->name }}
+                                    </dd>
+
                                     <dt class="col-4">Event Status</dt>
                                     <dd class="col-8">
                                         <div class="badge text-md {{ $a->event->status == 'Completed' ? 'badge-success' : ($a->event->status == 'Pending' ? 'badge-warning' : 'badge-info') }}">{{ Str::upper($a->event->status) }}</div>

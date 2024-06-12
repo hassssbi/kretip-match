@@ -11,6 +11,7 @@
                     <th>Date From - To</th>
                     <th>Location</th>
                     <th>Vol Needed</th>
+                    <th>Moderator</th>
                     <th>Status</th>
                     <th>Action</th>
                 </tr>
@@ -24,6 +25,7 @@
                             <td>{{ $e->start_date }} - {{ $e->end_date }}</td>
                             <td>{{ $e->location }}</td>
                             <td>{{ $e->assignedUsers()->count() }} / {{ $e->num_of_needed_vol }}</td>
+                            <td>{{ $e->moderator->name }}</td>
                             <td>
                                 <div class="badge text-md {{ ($e->status === 'Completed' ? 'badge-success' : ($e->status === 'Canceled' ? 'badge-danger' : 'badge-warning')) }}">{{ Str::upper($e->status)  }}</div>
                             </td>

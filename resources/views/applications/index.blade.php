@@ -28,11 +28,12 @@
 
                             <dt class="col-4">Skills</dt>
                             <dd class="col-8">
-                                @if(!empty($eventSkills))
-                                    {{ $eventSkills }}
-                                @else
-                                    No specific skills required.
-                                @endif
+                                {{ $event->skills->implode('name', ', ') ?: 'No specific skills required.' }}
+                            </dd>
+
+                            <dt class="col-4">Moderator</dt>
+                            <dd class="col-8">
+                                {{ $event->moderator->name }}
                             </dd>
                         </dl>
                     </div>
