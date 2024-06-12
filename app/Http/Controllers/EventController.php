@@ -9,6 +9,7 @@ use App\Models\Announcement;
 use App\Models\User;
 use App\Models\Skill;
 use App\Models\UserSkill;
+use App\Models\Feedback;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
@@ -383,12 +384,13 @@ class EventController extends Controller
     public function assignedEventDetails(Event $event)
     {
         $user = auth()->user();
+        $user_feedbacks = Feedback::where(['event_id' => $event->id, 'user_id' => $user->id])->count();
         $breadcrumbs = [
             ['name' => 'Home', 'url' => route('volunteers.index')],
             ['name' => 'Assigned Events', 'url' => route('volunteers.assignedEvents')],
             ['name' => 'View Assigned Events', 'url' => route('volunteers.assignedEventsDetails', $event->id)],
         ];
 
-        return view('events.assignedEventDetails', compact('breadcrumbs', 'event'));
+        return view('events.assignedEventDetails', compact('breadcrumbs', 'event', 'user_feedbacks'));
     }
 }
