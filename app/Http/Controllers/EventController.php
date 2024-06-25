@@ -299,6 +299,10 @@ class EventController extends Controller
             ['name' => 'Events', 'url' => route('volunteers.events')],
         ];
 
+        if(auth()->user()->isBlacklisted()) {
+            // return view('volunteers.blacklist_notice', compact('breadcrumbs'))->with('errors', 'You have been blacklisted.');
+            return redirect()->route('volunteers.blacklist.notice')->with('error', 'You are currently blacklisted.');
+        }
 
         if($request->query('search') !== null) {
             $search = $request->query('search');
@@ -324,6 +328,11 @@ class EventController extends Controller
             ['name' => 'Events', 'url' => route('volunteers.events')],
             ['name' => 'Events Details', 'url' => route('volunteers.eventDetails', $event->id)],
         ];
+
+        if(auth()->user()->isBlacklisted()) {
+            // return view('volunteers.blacklist_notice', compact('breadcrumbs'))->with('errors', 'You have been blacklisted.');
+            return redirect()->route('volunteers.blacklist.notice')->with('error', 'You are currently blacklisted.');
+        }
 
         $event = Event::with(['applications', 'assignedUsers'])->findOrFail($event->id);
         $user = auth()->user();

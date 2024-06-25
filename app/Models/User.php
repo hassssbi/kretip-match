@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
@@ -33,6 +34,8 @@ class User extends Authenticatable
         'about',
         'image',
         'role_id',
+        'blacklist',
+        'blacklist_end_date',
     ];
 
     /**
@@ -92,5 +95,10 @@ class User extends Authenticatable
     public function skills()
     {
         return $this->belongsToMany(Skill::class, 'users_skills', 'user_id', 'skill_id');
+    }
+
+    public function isBlacklisted()
+    {
+        return $this->blacklist && ($this->blacklist_end_date === null || $this->blacklist_end_date > now());
     }
 }

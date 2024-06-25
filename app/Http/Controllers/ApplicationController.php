@@ -7,6 +7,7 @@ use App\Models\Event;
 use App\Models\EventAssigned;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class ApplicationController extends Controller
 {
@@ -162,6 +163,24 @@ class ApplicationController extends Controller
         $application->save();
 
         return redirect()->route('volunteers.status')->with('success', 'Your application has been canceled.');
+    }
+
+    public function blacklistUser(User $user)
+    {
+        // Check if user has canceled 3 or more applications
+        $canceledApplicationsCount = Application::where('user_id', $user->id)
+                                                ->where('status', 'Canceled')
+                                                ->count();
+
+        if ($canceledApplicationsCount >= 3) {
+            $user->blacklist = true;
+            $user->blacklist_end_date = Carbon::now()->addMonths(3); // Blacklist for 3 months
+            $user->save();
+
+            return redirect()->back()->with('success', "$user->name has been blacklisted for 3 months.");
+        }
+
+        return redirect()->back()->with('error', 'User does not meet the criteria for blacklisting.');
     }
 
 

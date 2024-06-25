@@ -33,11 +33,10 @@ Route::get('/about-us', function () {
 
 Auth::routes();
 
-
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 // Volunteer Routes
-Route::prefix('volunteer')->name('volunteers.')->group(function () {
+Route::prefix('volunteer')->name('volunteers.')->middleware(['auth', 'role:3'])->group(function () {
     Route::get('/home', [VolunteerController::class, 'index'])->name('index');
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('editProfile');
@@ -45,7 +44,6 @@ Route::prefix('volunteer')->name('volunteers.')->group(function () {
     Route::get('/profile/change-password', [ProfileController::class, 'changePassword'])->name('changePassword');
     Route::put('/profile/change-password', [ProfileController::class, 'savePassword'])->name('savePassword');
     Route::get('/events', [EventController::class, 'eventsList'])->name('events');
-    Route::get('/events/{event}', [EventController::class, 'eventDetails'])->name('eventDetails');
     Route::get('/events/{event}', [EventController::class, 'eventDetails'])->name('eventDetails');
     Route::post('/events/{event}/apply', [ApplicationController::class, 'store'])->name('submitApplication');
     Route::get('/status', [ApplicationController::class, 'statusList'])->name('status');
@@ -56,10 +54,17 @@ Route::prefix('volunteer')->name('volunteers.')->group(function () {
     Route::get('/assigned-events/{event}', [EventController::class, 'assignedEventDetails'])->name('assignedEventsDetails');
     Route::get('/assigned-events/{event}/feedback', [FeedbackController::class, 'submitFeedback'])->name('submitFeedback');
     Route::post('/assigned-events/{event}/feedback', [FeedbackController::class, 'storeFeedback'])->name('storeFeedback');
+    Route::get('/blacklist-notice', function () {
+        $breadcrumbs = [
+            ['name' => 'Home', 'url' => route('volunteers.index')],
+            ['name' => 'Blacklisted', 'url' => route('volunteers.blacklist.notice')],
+        ];
+        return view('volunteers.blacklist_notice', compact('breadcrumbs'));
+    })->name('blacklist.notice');
 });
 
 // Moderator Routes
-Route::prefix('moderator')->name('moderators.')->group(function () {
+Route::prefix('moderator')->name('moderators.')->middleware(['auth', 'role:2'])->group(function () {
     Route::get('/home', [ModeratorController::class, 'index'])->name('index');
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('editProfile');
@@ -73,6 +78,7 @@ Route::prefix('moderator')->name('moderators.')->group(function () {
     Route::get('/events/{event}/applications', [ApplicationController::class, 'index'])->name('applications');
     Route::post('/applications/{id}/accept', [ApplicationController::class, 'accept'])->name('applicationsAccept');
     Route::post('/applications/{id}/reject', [ApplicationController::class, 'reject'])->name('applicationsReject');
+    Route::post('/applications/blacklist/{user}', [ApplicationController::class, 'blacklistUser'])->name('blacklistUser');
     Route::get('/events/{event}/edit', [EventController::class, 'edit'])->name('editEvent');
     Route::put('/events/{event}', [EventController::class, 'update'])->name('updateEvent');
     Route::put('/events/{event}/complete', [EventController::class, 'completeEvent'])->name('completeEvent');
@@ -83,7 +89,7 @@ Route::prefix('moderator')->name('moderators.')->group(function () {
 });
 
 // Admin Routes
-Route::prefix('admin')->name('admins.')->group(function () {
+Route::prefix('admin')->name('admins.')->middleware(['auth', 'role:1'])->group(function () {
     Route::get('/home', [AdminController::class, 'index'])->name('index');
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('editProfile');
@@ -96,5 +102,4 @@ Route::prefix('admin')->name('admins.')->group(function () {
     Route::delete('/users/{user}', [AdminController::class, 'destroy'])->name('userDestroy');
     Route::get('/admin/registrations', [AdminController::class, 'registrations'])->name('registrations');
     Route::get('/admin/registrations/{year}', [AdminController::class, 'registrationsByYear'])->name('registrationsByYear');
-
 });

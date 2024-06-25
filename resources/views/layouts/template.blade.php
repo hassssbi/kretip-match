@@ -193,7 +193,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('volunteers.events') }}" class="nav-link @if(Request::routeIs('volunteers.events') || Request::routeIs('volunteers.eventDetails')) active @endif">
+                <a href="{{ route('volunteers.events') }}" class="nav-link @if(Request::routeIs('volunteers.events') || Request::routeIs('volunteers.eventDetails') || Request::routeIs('volunteers.blacklist.notice')) active @endif">
                 <i class="fas fa-calendar nav-icon"></i>
                 <p>Events</p>
                 </a>

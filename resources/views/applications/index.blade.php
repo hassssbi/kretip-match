@@ -119,6 +119,7 @@
                                         @if (Auth::user()->id == $a->event->user_id)
                                             <button class="btn-accept btn btn-success" {{ ($a->status !== 'Accepted' && $a->status !== 'Rejected' && $a->status !== 'Canceled') ? '' : 'disabled' }} >Accept</button>
                                             <button class="btn-reject btn btn-danger" {{ ($a->status !== 'Accepted' && $a->status !== 'Rejected' && $a->status !== 'Canceled') ? '' : 'disabled' }}>Reject</button>
+                                            <button class="btn-blacklist btn btn-warning" {{ ($a->user->isBlacklisted() ? 'disabled' : '') }}>Blacklist</button>
                                         @endif
 
                                         <!-- Invisible forms for accepting and rejecting applications -->
@@ -126,6 +127,9 @@
                                             @csrf
                                         </form>
                                         <form method="POST" action="{{ route('moderators.applicationsReject', $a->id) }}" class="d-none form-reject">
+                                            @csrf
+                                        </form>
+                                        <form method="POST" action="{{ route('moderators.blacklistUser', $a->user->id) }}" class="d-none form-blacklist">
                                             @csrf
                                         </form>
                                     </td>
@@ -178,6 +182,26 @@
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
                     confirmButtonText: 'Yes, reject it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+
+        document.querySelectorAll('.btn-blacklist').forEach(button => {
+            button.addEventListener('click', function () {
+                let form = this.closest('tr').querySelector('.form-blacklist');
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Do you want to blacklist this user?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, blacklist it!'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         form.submit();
