@@ -135,12 +135,15 @@
 
                         <div class="form-group">
                             <label for="image" class="input-label">Profile Image</label>
-                            <input type="file" name="image" id="image" class="form-control @error('image') is-invalid @enderror">
+                            <input type="file" name="image" id="image" class="form-control col-6 @error('image') is-invalid @enderror" accept="image/*" onchange="previewImage(event)">
                             @error('image')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
+                        </div>
+                        <div class="form-group">
+                            <img id="image-preview" class="mt-2" src="#" alt="Image Preview" style="display: none; max-height: 200px;">
                         </div>
 
                         <div class="btn-row float-right">
@@ -158,6 +161,16 @@
 @push('scripts')
 
 <script>
+    function previewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function(){
+            var output = document.getElementById('image-preview');
+            output.src = reader.result;
+            output.style.display = 'block';
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
         document.querySelector('.add-skill-btn').addEventListener('click', function () {
             const skillInputGroup = document.createElement('div');

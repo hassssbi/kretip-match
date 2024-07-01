@@ -150,12 +150,16 @@
 
             <div class="form-group">
                 <label for="image" class="input-label">Profile Image</label>
-                <input type="file" name="image" id="image" class="form-control @error('image') is-invalid @enderror">
+                <input type="file" name="image" id="image" class="form-control col-6 @error('image') is-invalid @enderror" accept="image/*" onchange="previewImage(event)">
                 @error('image')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
                 @enderror
+            </div>
+
+            <div class="form-group">
+                <img id="image-preview" src="{{ (isset($user->image) ? Storage::url($user->image) : asset('admin/dist/img/default-user.png')) }}" alt="Image Preview" style="max-height: 200px; margin-top: 10px;">
             </div>
 
             <div class="btn-row text-end">
@@ -204,6 +208,16 @@
             });
         });
     });
+
+    function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function(){
+            const output = document.getElementById('image-preview');
+            output.src = reader.result;
+            output.style.display = 'block';
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
 </script>
 @endpush
 

@@ -107,7 +107,7 @@
                             </span>
                         @enderror
 
-                        <div class="form-group row mt-2">
+                        <div class="form-group row mt-2 d-none">
                             <div class="col-6">
                                 <label for="latitude" class="input-label">Latitude</label>
                                 <input id="latitude" type="text" class="form-control @error('latitude') is-invalid @enderror" name="latitude" value="{{ $event->latitude }}" required autocomplete="latitude" autofocus>
@@ -163,15 +163,16 @@
 
                     <div class="form-group">
                         <label for="poster" class="input-label">Poster</label>
-                        <input type="file" name="poster" id="poster" class="form-control @error('poster') is-invalid @enderror">
-                        <div class="image form-image mt-3">
-                            <img src="{{ Storage::url($event->poster) }}" alt="poster" style="height: 25vh">
-                        </div>
+                        <input type="file" name="poster" id="poster" class="form-control col-6 @error('poster') is-invalid @enderror" accept="image/*" onchange="previewImage(event)">
                         @error('poster')
-                        <span class="invalid-feedback" role="alert">
+                            <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
                         @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <img id="image-preview" class="mt-2" src="{{ Storage::url($event->poster) }}" alt="Image Preview" style="max-height: 200px">
                     </div>
 
                     <div class="btn-row text-end">
@@ -276,6 +277,16 @@
             document.getElementById('skills-container').appendChild(skillInputGroup);
         });
     });
+
+    function previewImage(event) {
+    var reader = new FileReader();
+    reader.onload = function(){
+        var output = document.getElementById('image-preview');
+        output.src = reader.result;
+        output.style.display = 'block';
+    };
+    reader.readAsDataURL(event.target.files[0]);
+}
 </script>
 @endpush
 
