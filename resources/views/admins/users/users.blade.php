@@ -16,9 +16,12 @@
             </thead>
             <tbody>
                 @if ($users->count() > 0)
+                @php
+                    $i = 0;
+                @endphp
                     @foreach ($users as $u)
                         <tr>
-                            <td>{{ $u->id }}</td>
+                            <td>{{ ++$i }}</td>
                             <td>{{ $u->name }}</td>
                             <td>{{ $u->icno }}</td>
                             <td>{{ $u->phone_number }}</td>

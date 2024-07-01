@@ -18,9 +18,12 @@
             </thead>
             <tbody>
                 @if ($events->count() > 0)
+                @php
+                    $i = 0;
+                @endphp
                     @foreach ($events as $e)
                         <tr>
-                            <td>{{ $e->id }}</td>
+                            <td>{{ ++$i }}</td>
                             <td>{{ $e->title }}</td>
                             <td>{{ $e->start_date }} - {{ $e->end_date }}</td>
                             <td>{{ $e->location }}</td>

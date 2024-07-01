@@ -73,7 +73,7 @@
                     </ul>
                 </p>
                 <div class="btn-row text-end">
-                    <a href="{{ route('volunteers.submitFeedback', $event->id)}}" class="btn btn-warning {{ $user_feedbacks > 0 ? 'disabled' : '' }}">Submit Feedback</a>
+                    <a href="{{ route('volunteers.submitFeedback', $event->id)}}" class="btn btn-warning {{ ($user_feedbacks > 0 || $event->status !== 'Completed') ? 'disabled' : '' }}">Submit Feedback</a>
                 </div>
             </div>
         </div>

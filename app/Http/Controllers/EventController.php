@@ -300,7 +300,6 @@ class EventController extends Controller
         ];
 
         if(auth()->user()->isBlacklisted()) {
-            // return view('volunteers.blacklist_notice', compact('breadcrumbs'))->with('errors', 'You have been blacklisted.');
             return redirect()->route('volunteers.blacklist.notice')->with('error', 'You are currently blacklisted.');
         }
 

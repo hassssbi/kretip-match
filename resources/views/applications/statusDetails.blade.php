@@ -73,7 +73,7 @@
                     </ul>
                 </p>
                 <div class="btn-row text-end">
-                    <button class="btn btn-danger btn-cancel" {{ ($application->status === 'Rejected' || $application->status === 'Canceled') ? 'disabled' : '' }} >Cancel</button>
+                    <button class="btn btn-danger btn-cancel" {{ ($application->status === 'Rejected' || $application->status === 'Canceled' || $application->event->isCompleted()) ? 'disabled' : '' }} >Cancel</button>
                 </div>
 
                 <form id="cancelForm" action="{{ route('volunteers.cancelApplication', $application->id) }}" method="POST" style="display: none;">

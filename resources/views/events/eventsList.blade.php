@@ -14,48 +14,50 @@
 @if($events->count() > 0)
 <div class="row row-cols-2">
     @foreach ($events as $e)
-        <div class="col">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-4">
-                            <img src="{{ Storage::url($e->poster) }}" alt="" style="height: 200px; width: 150px">
-                        </div>
-                        <div class="col-8">
-                            <dl class="row">
-                                <dt class="col-4">Event Title</dt>
-                                <dd class="col-8">{{ $e->title }}</dd>
+        @if(!$e->isFull() && !$e->isCompleted())
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4">
+                                <img src="{{ Storage::url($e->poster) }}" alt="" style="height: 200px; width: 150px">
+                            </div>
+                            <div class="col-8">
+                                <dl class="row">
+                                    <dt class="col-4">Event Title</dt>
+                                    <dd class="col-8">{{ $e->title }}</dd>
 
-                                <dt class="col-4">Description</dt>
-                                <dd class="col-8">{{ $e->description }}</dd>
+                                    <dt class="col-4">Description</dt>
+                                    <dd class="col-8">{{ $e->description }}</dd>
 
-                                <dt class="col-4">Date</dt>
-                                <dd class="col-8">{{ $e->start_date }} to {{ $e->end_date }}</dd>
+                                    <dt class="col-4">Date</dt>
+                                    <dd class="col-8">{{ $e->start_date }} to {{ $e->end_date }}</dd>
 
-                                <dt class="col-4">Location</dt>
-                                <dd class="col-8">{{ $e->location }}</dd>
+                                    <dt class="col-4">Location</dt>
+                                    <dd class="col-8">{{ $e->location }}</dd>
 
-                                <dt class="col-4">Volunteers Needed</dt>
-                                <dd class="col-8">{{ $e->assignedUsers()->count() }} / {{ $e->num_of_needed_vol }}</dd>
+                                    <dt class="col-4">Volunteers Needed</dt>
+                                    <dd class="col-8">{{ $e->assignedUsers()->count() }} / {{ $e->num_of_needed_vol }}</dd>
 
-                                <dt class="col-4">Skills</dt>
-                                <dd class="col-8">
-                                    {{ $e->skills->implode('name', ', ') ?: 'No specific skills required.' }}
-                                </dd>
+                                    <dt class="col-4">Skills</dt>
+                                    <dd class="col-8">
+                                        {{ $e->skills->implode('name', ', ') ?: 'No specific skills required.' }}
+                                    </dd>
 
-                                <dt class="col-4">Moderator</dt>
-                                <dd class="col-8">
-                                    {{ $e->moderator->name }}
-                                </dd>
-                            </dl>
-                            <div class="btn-row text-end">
-                                <a href="{{ route('volunteers.eventDetails', $e->id) }}" class="btn btn-primary">More Details</a>
+                                    <dt class="col-4">Moderator</dt>
+                                    <dd class="col-8">
+                                        {{ $e->moderator->name }}
+                                    </dd>
+                                </dl>
+                                <div class="btn-row text-end">
+                                    <a href="{{ route('volunteers.eventDetails', $e->id) }}" class="btn btn-primary">More Details</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @endif
     @endforeach
 </div>
 @else

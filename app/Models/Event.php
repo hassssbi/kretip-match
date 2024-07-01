@@ -51,4 +51,14 @@ class Event extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    public function isFull()
+    {
+        return $this->assignedUsers()->count() >= $this->num_of_needed_vol;
+    }
+
+    public function isCompleted()
+    {
+        return $this->status === 'Completed';
+    }
 }

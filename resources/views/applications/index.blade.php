@@ -108,17 +108,20 @@
                     </thead>
                     <tbody>
                         @if ($applications->count() > 0)
+                            @php
+                                $i = 0;
+                            @endphp
                             @foreach ($applications as $a)
                                 <tr data-id="{{ $a->id }}" data-message="{{ $a->message }}" data-address="{{ $a->user->address }}" data-skills="{{ $a->user->skills->implode('name', ', ') ?: 'No skills.' }}" data-icno="{{ $a->user->icno }}" data-name="{{ $a->user->name }}" data-status="{{ $a->status }}" data-email="{{ $a->user->email }}" data-phone="{{ $a->user->phone_number }}">
-                                    <td>{{ $a->id }}</td>
+                                    <td>{{ ++$i }}</td>
                                     <td>{{ $a->user->name }}</td>
                                     <td>
                                         <div class="badge text-md {{ ($a->status === 'Accepted' ? 'badge-success' : ($a->status === 'Rejected' || $a->status === 'Canceled' ? 'badge-danger' : 'badge-warning')) }}">{{ Str::upper($a->status)  }}</div>
                                     </td>
                                     <td>
                                         @if (Auth::user()->id == $a->event->user_id)
-                                            <button class="btn-accept btn btn-success" {{ ($a->status !== 'Accepted' && $a->status !== 'Rejected' && $a->status !== 'Canceled') ? '' : 'disabled' }} >Accept</button>
-                                            <button class="btn-reject btn btn-danger" {{ ($a->status !== 'Accepted' && $a->status !== 'Rejected' && $a->status !== 'Canceled') ? '' : 'disabled' }}>Reject</button>
+                                            <button class="btn-accept btn btn-success" {{ (($a->status !== 'Accepted' && $a->status !== 'Rejected' && $a->status !== 'Canceled') && $a->event->status !== 'Completed') ? '' : 'disabled' }} >Accept</button>
+                                            <button class="btn-reject btn btn-danger" {{ (($a->status !== 'Accepted' && $a->status !== 'Rejected' && $a->status !== 'Canceled') && $a->event->status !== 'Completed') ? '' : 'disabled' }}>Reject</button>
                                             <button class="btn-blacklist btn btn-warning" {{ ($a->user->isBlacklisted() ? 'disabled' : '') }}>Blacklist</button>
                                         @endif
 
