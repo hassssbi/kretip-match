@@ -89,7 +89,7 @@ To install Kretip Match, follow these steps:
     ```
 5. Start your local server (e.g., Laragon).
 6. Create a database named `kretipmatch`.
-7. Copy the '.env.example' file, paste it in the same directory, and rename it to '.env'. 
+7. Copy the `.env.example` file, paste it in the same directory, and rename it to `.env`. 
 8. Run the database migrations and seeders:
     ```sh
     php artisan migrate --seed
