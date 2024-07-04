@@ -64,4 +64,45 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-# kretip-match
+
+# Kretip Match
+
+## Installation
+
+To install Kretip Match, follow these steps:
+
+1. Clone the repository:
+    ```sh
+    git clone https://github.com/hassssbi/kretip-match.git
+    ```
+2. Navigate to the project directory:
+    ```sh
+    cd kretip-match
+    ```
+3. Install the PHP dependencies using Composer:
+    ```sh
+    composer install
+    ```
+4. Install the JavaScript dependencies using npm:
+    ```sh
+    npm install
+    ```
+5. Start your local server (e.g., Laragon).
+6. Create a database named `kretipmatch`.
+7. Copy the '.env.example' file, paste it in the same directory, and rename it to '.env'. 
+8. Run the database migrations and seeders:
+    ```sh
+    php artisan migrate --seed
+    ```
+9. Compile the assets:
+    ```sh
+    npm run dev
+    ```
+10. Open the application in a browser. In Laragon, right-click on the `www` folder and select `kretip-match` to open it in the browser.
+11. If you encounter any issues, troubleshoot accordingly.
+
+## Troubleshooting
+
+- Ensure your `.env` file is properly configured, especially the database settings.
+- If you encounter permission issues, try running the commands with elevated privileges (e.g., using `sudo`).
+- Check the Laravel and npm logs for any specific error messages.
