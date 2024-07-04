@@ -121,14 +121,15 @@ class RegisterController extends Controller
         }
 
         $user = User::create($userData);
-
         if (isset($data['skills'])) {
             foreach ($data['skills'] as $skillName) {
-                $skill = Skill::firstOrCreate(['name' => $skillName, 'description' => $skillName]);
-                UserSkill::create([
-                    'user_id' => $user->id,
-                    'skill_id' => $skill->id,
-                ]);
+                if($skillName !== null && $skillName !== "") {
+                    $skill = Skill::firstOrCreate(['name' => $skillName, 'description' => $skillName]);
+                    UserSkill::create([
+                        'user_id' => $user->id,
+                        'skill_id' => $skill->id,
+                    ]);
+                }
             }
         }
 
